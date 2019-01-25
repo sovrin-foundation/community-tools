@@ -11,21 +11,69 @@ total_contributions = 0
 # week_id: total_commits
 weekly_contributions = dict()
 
+if len(sys.argv) < 2:
+   token=raw_input("GitHub Authentication Token: ")
+else:
+   token=sys.argv[1]
+   
 # Can be collected through GitHub API but it is easier this way
-indy_repos = [
-'indy-node',
-'indy-sdk',
-'indy-plenum',
-'indy-hipe',
-'indy-crypto',
-'indy-anoncreds',
-'indy-agent',
-'indy-post-install-automation',
-'indy-jenkins-pipeline-lib',
-'indy-test-automation'
+repos = [
+'hyperledger/indy-node',
+'hyperledger/indy-sdk',
+'hyperledger/indy-plenum',
+'hyperledger/indy-hipe',
+'hyperledger/indy-crypto',
+'hyperledger/indy-anoncreds',
+'hyperledger/indy-agent',
+'hyperledger/indy-post-install-automation',
+'hyperledger/indy-jenkins-pipeline-lib',
+'hyperledger/indy-test-automation',
+'hyperledger/ursa',
+'hyperledger/ursa-rfcs',
+'bcgov/von',
+'bcgov/von-network',
+'bcgov/TheOrgBook',
+'bcgov/von-bc-registries-agent',
+'bcgov/von-personal-agent',
+'bcgov/permitify',
+'bcgov/von-connector',
+'bcgov/von-ledger-explorer',
+'sovrin-foundation/Responsible-Disclosure-Deep-Learning-Fingerprinting-Attack',
+'sovrin-foundation/libsovtoken',
+'sovrin-foundation/cloudconfigs', 
+'sovrin-foundation/saltstack',
+'sovrin-foundation/steward-tools',
+'sovrin-foundation/token-plugin',
+#'sovrin-foundation/sov-docs-conf',
+'sovrin-foundation/ledger-monitoring-server',
+'sovrin-foundation/jenkins-shared',
+'sovrin-foundation/sovrin',
+'sovrin-foundation/community-tools',
+'sovrin-foundation/aws-codebuild-pipeline-plugin',
+'sovrin-foundation/sovrin-packaging',
+'sovrin-foundation/connector-app',
+'sovrin-foundation/vc-data-model',
+'sovrin-foundation/sovrin-sip',
+'sovrin-foundation/sovrin-test-automation',
+'sovrin-foundation/sshuttle-helper',
+'sovrin-foundation/protocol',
+'sovrin-foundation/agent-sdk',
+'sovrin-foundation/sovrin_bot',
+'sovrin-foundation/sovrin-connector-preview',
+'sovrin-foundation/pipeline-test',
+'sovrin-foundation/ssi-protocol',
+'sovrin-foundation/sovrin.org',
+'sovrin-foundation/launch',
+'sovrin-foundation/old-sovrin',
+'sovrin-foundation/sovrin-agent',
+'sovrin-foundation/sovrin-client-c',
+'sovrin-foundation/rust-curvecp-poc'
+#'sovrin-foundation/sovrin-sample-app'
 ]
 
-for repo in indy_repos:
+username='' #I don't know why the auth requires a username, as it doesn't appear to use it... 
+
+for repo in repos:
     print('Working on {}'.format(repo))
 
     repo_contributions_last_year[repo] = 0
@@ -33,9 +81,10 @@ for repo in indy_repos:
     repo_contributions[repo] = 0
 
     # STATS
-    stats_url = 'https://api.github.com/repos/hyperledger/{}/stats/commit_activity'.format(repo)
+    stats_url = 'https://api.github.com/repos/{}/stats/commit_activity'.format(repo)
 
-    stats_resp = requests.get(url=stats_url)
+    username=""
+    stats_resp = requests.get(url=stats_url, auth=(username,token))
 
     if not stats_resp.ok:
         print('Rate limit probably reached')
@@ -47,14 +96,14 @@ for repo in indy_repos:
         repo_contributions_last_year[repo] += week['total']
         week_id = week['week']
         if weekly_contributions.get(week_id):
-            weekly_contributions[week_id][1] += week['total']
+            weekly_contributions[week_id][0] += week['total']
         else:
             weekly_contributions[week_id] = [week['total'], 0]
 
     # CONTRIBUTIONS
-    contrib_url = 'https://api.github.com/repos/hyperledger/{}/contributors'.format(repo)
+    contrib_url = 'https://api.github.com/repos/{}/contributors'.format(repo)
 
-    head_resp = requests.head(url=contrib_url)
+    head_resp = requests.head(url=contrib_url, auth=(username,token))
 
     if not head_resp.ok:
         print('Rate Limit probably reached')
@@ -68,7 +117,7 @@ for repo in indy_repos:
 
     for x in range(1, int(last_page)+1):
         params = {'page': x}
-        contributors_resp = requests.get(url=contrib_url, params=params)
+        contributors_resp = requests.get(url=contrib_url, params=params, auth=(username,token))
         contributors = contributors_resp.json()
 
         for contributor in contributors:
@@ -79,9 +128,9 @@ for repo in indy_repos:
             repo_contributions[repo] += contributor['contributions']
 
     # CONTRIBUTORS
-    contrib_stats_url = 'https://api.github.com/repos/hyperledger/{}/stats/contributors'.format(repo)
+    contrib_stats_url = 'https://api.github.com/repos/{}/stats/contributors'.format(repo)
 
-    contrib_stats_resp = requests.get(url=contrib_stats_url)
+    contrib_stats_resp = requests.get(url=contrib_stats_url, auth=(username,token))
 
     if not contrib_stats_resp.ok:
         print('Rate limit probably reached')
@@ -104,9 +153,10 @@ for repo in indy_repos:
                         if unique_contributors[contributor['author']['login']] < week:
                             if unique_contributors[contributor['author']['login']] > 0: 
                                 weekly_contributions[unique_contributors[contributor['author']['login']]][1] -= 1  
+                                #print("gothere {}".format(weekly_contributions[unique_contributors[contributor['author']['login']]][1]))
                             unique_contributors[contributor['author']['login']] = week
                             weekly_contributions[week][1] += 1
-#    print(weekly_contributions)
+    #print(weekly_contributions)
 #    exit(0)
 #    for author in stats:
 #        repo_contributions_last_year[repo] += week['total']
