@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Get a Sovrin Network Endorser or Test-tokens!</title>
+<title>Get a Sovrin Network Endorser or Test-Tokens!</title>
 <style>
 div {
   padding: 5px 5px 5px 5px;
@@ -84,7 +84,7 @@ div {
 <script type="text/javascript" src="apigClient.js"></script>
 <script>
 //var apigClient = apigClientFactory.newClient({region: 'us-west-2'});
-function addTrustAnchor () {
+function addEndorser () {
   var params = {};
   var body = {
     network: document.getElementById('network').value,
@@ -103,7 +103,7 @@ function addTrustAnchor () {
           console.log(data);
           data = JSON.parse(data);
           did=document.getElementById('did').value;
-          console.log("Succeeded adding " + did + " as a Trust Anchor!");
+          console.log("Succeeded adding " + did + " as an Endorser!");
           if(did in data) {
               console.log("Found DID " + did + " in data");
               message = data[did].status + ": " +
@@ -163,7 +163,7 @@ function addTrustAnchor () {
 </script>
 </head>
 <body>
-<h1 align="center"> Setup a Sovrin Network Transaction Endorser and get Test-tokens!</h1>
+<h1 align="center"> Setup a Sovrin Network Transaction Endorser and Get Test-Tokens!</h1>
 <hr />
 <div style="font-size:x-large;" id="div_copy_top" align="center" >
   <p> Select a network, then enter a DID and verkey AND/OR a payment address: </p>
@@ -179,8 +179,8 @@ function addTrustAnchor () {
           <td style="text-align:right" class = "select">Network:</td>
           <td>
             <select style="font-size:large;" name="network" id="network">
-            <option value="testpool">BuilderNet</option>
-            <option value="testpool">StagingNet</option>
+            <option value="buildernet">BuilderNet</option>
+            <option value="stagingnet">StagingNet</option>
             </select>
           </td>  
         </tr>
@@ -204,7 +204,7 @@ function addTrustAnchor () {
         </tr>
         <tr>
           <td colspan="2">
-           <input style="font-size:large;" d="Submit" type="button" value="Submit" onclick="addTrustAnchor();" />
+           <input id="Submit" type="button" value="Submit" onclick="addEndorser();" />
           </td>
         </tr>
       </table>
