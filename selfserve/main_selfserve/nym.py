@@ -30,7 +30,6 @@ StewardDID = "V5qJo72nMeF7x3ci8Zv2WP" #"Th7MpTaRZVRYnPiabds81Y" #"V5qJo72nMeF7x3
 BuilderPaymentAddress="pay:sov:52CuALbWKBX66sDnmf8zL5HvxFYyjzFNuaibERRNhPgKP1bBu"
 StagingPaymentAddress="pay:sov:2k8PCrjjMZUpQo6XGef1duDpeFQrhHf3A2BnWKmMBh5nuegNuD"
 TrainingPaymentAddress="pay:sov:4RqyLsoQokLaYRuqb8YS3z6Rr7ouTy8UBGzB6QzjiYRaiZiK1"
-text="Transaction Author Agreement V1.1\n\n1\n\n\fApproved by the Sovrin Board of Trustees 22 May 2019\nThis Transaction Author Agreement (the “<200b>Agreement<200b>”) is entered into between the Sovrin\nFoundation, a nonprofit corporation organized under the laws of the State of Utah, United States\nof America, and ___________ (“<200b>Transaction <200b>Author<200b>”), either a natural person acting as an\nIndividual or a _________ organized under the laws of _________. Sovrin Foundation and\nTransaction Author are individually referred to herein as a “Party” and collectively as the\n“Parties.”\nWHEREAS, the Transaction Author desires to write Transactions to the Sovrin Ledger;\nWHEREAS, the Sovrin Foundation desires to grant permission to the Transaction Author to\nwrite Transactions to the Sovrin Ledger;\nWHEREAS, subject to the Transaction Author complying with the terms and conditions of this\nAgreement, the Sovrin Foundation grants permission to the Transaction Author to write\nTransactions to the Sovrin Ledger;\nWHEREAS, subject to the Transaction Author complying with the terms and conditions of this\nAgreement, the Transaction Author accepts permission from the Sovrin Foundation to write\nTransactions to the Sovrin Ledger;\nFOR GOOD AND VALUABLE CONSIDERATION, THE SUFFICIENCY OF WHICH IS HEREBY\nACKNOWLEDGED, THE PARTIES AGREE AS FOLLOWS:\n\n1) Definitions\nUnless otherwise defined above, all capitalized terms used in this Agreement shall have the\nmeanings given to them in this Agreement or in the <200b>Sovrin Governance Framework and\ncorresponding <200b>Sovrin Glossary<200b>. The Sovrin Governance Framework and Sovrin Glossary is\nincorporated into this Agreement by reference only for purposes of use of such defined\nterms.\n\n2) Permission to Write to the Sovrin Ledger\na. The Sovrin Foundation grants to the Transaction Author the revocable right to write to\nthe Sovrin Ledger provided that the Transaction Author remains in compliance with all of\nits obligations under this Agreement.\nb. When authoring transactions under the policy of Permissioned Write Access, a\nTransaction Author may only write to the Sovrin Ledger by using an authorized\n\n2\n\n\fTransaction Endorser. In the event that Sovrin Foundation enables Public Write Access\nto the Sovrin Ledger, the Transaction Author will not need a Transaction Endorser to\nendorse a Transaction.\nc. Once an initial Transaction has been written to the Sovrin Ledger by the Transaction\nAuthor (“Initial Transaction”), the Transaction Author is granted permission to make\nadditional Transactions to update the state of a previous Transaction (“Update\nTransactions”). A Transaction Author may make Update Transactions if and only if the\nTransaction Author was the Author of the Initial Transaction. Update Transactions are\nTransactions and are subject to all the terms of this Agreement.\n\n3) Transaction Author Obligations\na. With regard to all Transactions written by or on behalf of the Transaction Author to the\nSovrin Ledger (“<200b>Authored Transactions<200b>”), the Transaction Author represents and\nwarrants that:\n1. it has all necessary rights and permissions to write the Authored Transactions;\n2. the Authored Transactions do not and will not violate any applicable law;\n3. the Authored Transactions will not contain data or information that infringes or\nmisappropriates the intellectual property rights of any third party;\n4. it will comply with any requirements imposed by the Transaction Endorser on the\nTransaction Author and any Authored Transactions endorsed by the Transaction\nEndorser;\n5. it will not author Transactions containing Personal Data as that term is defined in\nthe European Union’s General Data Protection Regulation (“<200b>GDPR<200b>”), except:\ni.\nIn the event that Sovrin Foundation permits Authored Transactions to\ncontain Personal Data, then the Transaction Author represents and\nwarrants that:\nA. it has received express, written consent, in the form required by all\napplicable laws, for the Personal Data to be permanently stored\non the Sovrin Ledger prior to writing such Personal Data to the\nSovrin Ledger;\nB. the consent includes a provision that permits the Data Subject to\nwithdraw its consent or exercise its right to be forgotten pursuant\nto applicable law; and\nC. if the Data Subject who provided express, written consent for the\nstorage of Personal Data on the Sovrin Ledger withdraws its\nconsent or if the Data Subject exercises a right to be forgotten, the\nwithdrawn consent and right to be forgotten request will be\neffectuated by marking the applicable Transaction(s) with a\nTombstone (if such functionality is enabled on the Sovrin Ledger)\nand that such marking will fully satisfy the withdrawn consent\nand/or right to be forgotten request, as applicable.\n6. the Transaction Author shall maintain such written consents (referenced in\n\n3\n\n\fSection 3(a)(5)) for a period of seven (7) years thereafter.\nb. Transaction Author may request that a Steward mark a Transaction as a Node-Specific\nTombstone (if such functionality is enabled on the Sovrin Ledger) if it is invoking a Data\nSubject’s right to erasure of Personal Data.\n\n4\n\n\f4) Governing Law and Forum\nThis Agreement is governed by the law of the State of Delaware, without reference to\nconflict of laws principles. All disputes arising out of or in connection with this Agreement\nshall be finally settled by binding arbitration under the Rules of Arbitration of the International\nChamber of Commerce by a single arbitrator appointed in accordance with the said Rules.\nUnless the Parties otherwise mutually agree, such arbitration shall be conducted in the\nEnglish language by electronic exchange of documents and by videoconference. The\narbitrator shall issue a reasoned decision, including findings of fact and conclusions of law.\nThe arbitrator shall require exchange by the Parties of documents relevant to the issues\nraised by any claim, defense, or counterclaim or on which the producing Party may rely in\nsupport of or in opposition to any claim, defense, or counterclaim, with due regard for\neliminating undue burden and expense and the expedited and lower cost nature of\narbitration. At the request of a Party, the arbitrator may at his or her discretion order the\ndeposition of witnesses. Depositions shall be limited to a maximum of three depositions per\nParty, each of a maximum of four hours duration, unless the arbitrator otherwise determines.\nDemand for arbitration may be initiated by either Party on fifteen (15) days written notice by\nemail to the other Party’s designated representative, together with a written specification of\nthe grounds for the dispute and the relief requested. By agreeing to binding and\nnon-appealable arbitration, each party understands that they each forever give up and waive\nany right which each Party may have to resolve any such claim, difference or dispute by\ncourt or jury trial. Notwithstanding the foregoing, either Party may bring a proceeding\nseeking equitable or injunctive relief solely and exclusively in the state and federal courts\nlocated in Wilmington, Delaware, to prevent the infringement of intellectual property rights or\nthe disclosure of confidential information. Each Party hereto consents to the exclusive\njurisdiction of such courts for the adjudication of any such equitable or injunctive relief, as\nwell as for any such matters that are excluded from or fall outside of this arbitration\nprovision.\n\n5) Representations and Warranties; Disclaimer\na. By Sovrin Foundation<200b>.\n1. SOVRIN FOUNDATION MAKES NO WARRANTY CONCERNING THE\nACCURACY, RELIABILITY, OR COMPLETENESS OF ANY INFORMATION OR\nDATA OBTAINED OR DERIVED THROUGH THE USE OF THE SOVRIN LEDGER,\nAND DISCLAIMS ANY OTHER REPRESENTATIONS OR WARRANTIES,\nEXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES\nOF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE,\nNON-INFRINGEMENT, ACCURACY OR COMPLETENESS OF DATA.\nb. By Transaction Author.\n1. Transaction Author represents that it understands that the Sovrin Ledger operates on\na distributed network and that Sovrin Foundation disclaims any responsibilities with\n\n5\n\n\frespect to access of data from the Sovrin Ledger.\n2. Transaction Author represents that it understands and acknowledges that Sovrin\nFoundation does not control the transfer of data between Nodes and over\ncommunications facilities, including the internet, and that the Sovrin Ledger may be\nsubject to limitations, delays, and other problems inherent in the use of such\ncommunications facilities.\n3. Transaction Author represents that it understands and acknowledges that there is\nregulatory uncertainty regarding the Sovrin Ledger’s compliance with GDPR as it\nrelates to Permissioned Write Access, Public Write Access, and Personal Data,\nincluding as it relates to cross-border transfers of data, restrictions of processing\ndata, the right to effective erasure of data, as well as the scope and nature of\nPersonal Data itself. Transaction Author further represents that it understands and\nacknowledges that Sovrin Foundation may modify, at any time, its Sovrin Ledger\nAccess Policies and the terms of this Agreement and any other agreement or\ndocument related to the Sovrin Ledger based on new information, guidance, or law\nrelated to GDPR compliance.\n4. Transaction Author represents that it understands and acknowledges that a Steward\nhas discretion to mark a Transaction as a Node-Specific Tombstone (if such\nfunctionality is enabled on the Sovrin Ledger) if (i) the Transaction Author makes a\nrequest pursuant to Section 3(b); (ii) the Steward or Sovrin Foundation is required to\ndo so by a court order; (iii) or if the Steward or Sovrin Foundation has evidence that\nthe Transaction violates the terms of this Agreement.\n\n6) Limitation of Liability\nEXCEPT IN THE EVENT OF EITHER PARTY’S GROSS NEGLIGENCE, WILLFUL\nMISCONDUCT OR FRAUD, IN NO EVENT SHALL EITHER PARTY BE LIABLE FOR ANY\nINDIRECT,\nINCIDENTAL,\nEXEMPLARY,\nPUNITIVE,\nSPECIAL, OR OTHER\nCONSEQUENTIAL DAMAGES UNDER THIS AGREEMENT, INCLUDING, WITHOUT\nLIMITATION, ANY LOST PROFITS, BUSINESS INTERRUPTION, LOSS OF PROGRAMS\nOR DATA, OR OTHERWISE, EVEN IF THE OTHER PARTY IS EXPRESSLY ADVISED OF\nTHE POSSIBILITY OR LIKELIHOOD OF SUCH DAMAGES.\nEXCEPT IN THE EVENT OF EITHER PARTY’S GROSS NEGLIGENCE, WILLFUL\nMISCONDUCT OR FRAUD, IN NO EVENT SHALL EITHER PARTY’S LIABILITY UNDER\nTHIS AGREEMENT EXCEED $250,000 USD IN THE AGGREGATE. IN THE EVENT OF\nEITHER PARTY’S GROSS NEGLIGENCE, SUCH PARTY’S LIABILITY UNDER THIS\nAGREEMENT SHALL NOT EXCEED $500,000 USD IN THE AGGREGATE. IN THE\nEVENT OF EITHER PARTY’S WILLFUL MISCONDUCT OR FRAUD, THERE SHALL BE\nNO DOLLAR CAP ON SUCH PARTY’S LIABILITY UNDER THIS AGREEMENT.\n\n7) Miscellaneous\na. Notice<200b>. Any notice, payment, demand or communication required or permitted to be\n\n6\n\n\fb.\n\nc.\n\nd.\n\ne.\n\nf.\n\ng.\n\nh.\n\ni.\n\n7\n\ndelivered or given by the provisions of this Agreement shall be deemed to have been\neffectively delivered or given and received on the date personally or electronically\ndelivered to the respective Party to whom it is directed, or when deposited by registered\nor certified mail, with postage and charges prepaid and addressed to the Parties at the\naddresses set forth below opposite their signatures to this Agreement.\nSeverability<200b>. If any provision of this Agreement is held invalid, illegal, or unenforceable,\nthe validity, legality, and enforceability of any of the remaining provisions of this\nAgreement shall not in any way be affected or impaired.\nRelationship of the Parties<200b>. This Agreement does not create a partnership, franchise,\njoint venture, agency, fiduciary or employment relationship between the Parties. Neither\nParty will represent that it has any authority to assume or create any obligation, express\nor implied, on behalf of the other Party, nor to represent the other Party as agent,\nemployee, franchisee, or in any other capacity. There are no third-party beneficiaries to\nthis Agreement. Neither Party shall make any proposals, promises, warranties,\nguarantees, or representations on behalf of the other Party or in the other Party’s name.\nAssignment<200b>. Neither Party will voluntarily, or by operation of law, assign or otherwise\ntransfer this Agreement without the other Party’s express prior written consent which will\nnot be unreasonably withheld, provided that no such consent is required for an\nassignment or transfer to a wholly or majority owned subsidiary or to a successor in\ninterest by reason of merger or consolidation or sale of all or substantially all of the\nassets of such Party relating to the subject matter of this Agreement.\nWaiver<200b>. The waiver by either Party of a breach, default, delay or omission of any of the\nprovisions of this Agreement by the other Party will not be construed as a waiver of any\nsubsequent breach of the same or other provisions.\nEntire Agreement<200b>. This Agreement, including all documents incorporated into this\nAgreement by reference, constitutes the entire agreement of the Parties with respect to\nthe subject matter of this Agreement, and supersedes any and all prior agreements and\nunderstandings of the Parties, whether written or oral, with respect to such subject\nmatter.\nModification of This Agreement<200b>. Sovrin Foundation reserves the right to modify this\nAgreement at any time in accordance with this provision, including, but not limited to,\nchanges in applicable law or guidance from any jurisdiction. Sovrin Foundation will post\nan amended version of this Agreement on its website at least ninety (90) days prior to\nthe effective date of the amendment (the “Amendment Effective Date”). If Transaction\nAuthor continues to Author Transactions to the Sovrin Ledger after the Amendment\nEffective Date, such continued use will constitute acceptance of the amended\nAgreement.\nCounterparts<200b>. This Agreement may be executed in two or more counterparts, each of\nwhich will be deemed an original, but all of which taken together will constitute one and\nthe same instrument\nSurvival<200b>. Any terms that by their nature survive termination or expiration of this\nAgreement shall survive.\n\n\f8) Signatures\nThe Parties hereto have caused this Agreement to be executed by their duly authorized\nrepresentatives as of the Effective Date.\n\nSovrin Foundation\nBy:\n\n________________________\n\nName:\n\n_____________________\n\nTitle:\n\n______________________\n\nDate:\n\n______________________\n\nTransaction Author\nBy:\n\n________________________\n\nName:\n\n_____________________\n\nTitle:\n\n______________________\n\nDate:\n\n______________________\n\nIn the presence of:\nName:\n\n_____________________\n\nTitle:\n\n______________________\n\nAddress: ______________________\n\n8\n\n\f"
 
 PAYMENT_LIBRARY = 'libsovtoken'
 PAYMENT_METHOD = 'sov'
@@ -134,7 +133,17 @@ async def addNYMs(network, NYMs):
             logger.debug("DID %s does not exist on the ledger. Will create identity owner with role %s.", entry["DID"], entry["role"])
             logger.debug("Before build_nym_request")
             nym_txn_req = await ledger.build_nym_request(steward_did, entry["DID"], entry["verkey"], entry["name"], entry["role"])
+            logger.debug("Before append TAA to build_nym request")
+            add_taa_req = await ledger.build_get_txn_author_agreement_request(steward_did, None)
+            print(add_taa_req)
+            add_taa_resp_json = await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, add_taa_req)
+            print(add_taa_resp_json)
+            add_taa_resp=json.loads(add_taa_resp_json)
+            if add_taa_resp["result"]["data"]:
+                nym_txn_req = await ledger.append_txn_author_agreement_acceptance_to_request(nym_txn_req, add_taa_resp["result"]["data"]["text"], add_taa_resp["result"]["data"]["version"], None, 'service_agreement', 1568937395)
+            logger.debug("After append TAA to build_nym request")
             logger.debug("After build_nym_request")
+
             logger.debug("Before sign_and_submit_request")
             await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, nym_txn_req)
             logger.debug("After sign_and_submit_request")
@@ -186,7 +195,7 @@ async def addNYMs(network, NYMs):
             #       existing identity.
             status = "Success"
             statusCode = 200
-            reason = "NYM %s already exists on the ledger. Proceeding to transfer test tokens if payment address supplied" % entry["DID"]
+            reason = "NYM %s already exists on the ledger." % entry["DID"]
             logger.debug(reason)
       #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
 
@@ -239,7 +248,7 @@ async def getTokenSources(pool_handle, wallet_handle, steward_did, payment_addre
     else:
         print("Gothere3")
         logger.debug("Before parse_get_payment_sources_response")
-        parse_get_payment_sources_resp = await payment.parse_get_payment_sources_response(payment_method,
+        parse_get_payment_sources_resp = await payment.parse_get_payment_sources_response(PAYMENT_METHOD,
                                                                               get_payment_sources_resp)
         logger.debug("After parse_get_payment_sources_resp")
         logger.debug("parse_get_payment_sources_response Sources JSON >%s<", parse_get_payment_sources_resp)
@@ -247,17 +256,18 @@ async def getTokenSources(pool_handle, wallet_handle, steward_did, payment_addre
     payment_sources = json.loads(parse_get_payment_sources_resp)
     return payment_sources
 
-def getSufficientTokenSources(token_sources, target_tokens_amount):
+def getSufficientTokenSources(token_sources, target_tokens_amount, xfer_fee):
+
     sources_amount = 0
     sources = []
 
     for source in token_sources:
         sources_amount += source['amount']
         sources.append(source['source'])
-        if sources_amount >= target_tokens_amount:
+        if sources_amount >= (target_tokens_amount + xfer_fee):
             break
 
-    remaining_tokens_amount = sources_amount - target_tokens_amount
+    remaining_tokens_amount = sources_amount - (target_tokens_amount + xfer_fee)
 
     return sources, remaining_tokens_amount
 
@@ -270,7 +280,7 @@ async def createPaymentAddess(wallet_handle, address_seed):
     return source_payment_address
 
 async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment_address, target_payment_address,
-                         target_tokens_amount):
+                         target_tokens_amount, xfer_fee):
     logger.debug("Before getting all token sources")
     token_sources = await getTokenSources(pool_handle, wallet_handle, steward_did, source_payment_address)
     print(token_sources)
@@ -286,7 +296,7 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
     logger.debug("Tokens amount to transfer >%s<", target_tokens_amount)
 
     logger.debug("Before getting necessary token sources")
-    token_sources, remaining_tokens_amount = getSufficientTokenSources(token_sources, target_tokens_amount)
+    token_sources, remaining_tokens_amount = getSufficientTokenSources(token_sources, target_tokens_amount, xfer_fee)
     logger.debug("After getting necessary token sources")
 
     logger.debug("Token sources %s", token_sources)
@@ -299,24 +309,22 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
         {"recipient": target_payment_address, "amount": target_tokens_amount},
         {"recipient": source_payment_address, "amount": remaining_tokens_amount}
     ]
-    #extras={'taaAcceptance': {'taaDigest': e1135b9882119714728457e520bff94942359295cd06ba5caed9286bda565f4a,'mechanism': 'service_agreement','time': 1568937395}}
-    payment_req, payment_method = await payment.build_payment_req(wallet_handle, steward_did,
-                                                                json.dumps(inputs), json.dumps(outputs), None)
+
     logger.debug("Before TAA")
-#    taa_req = await ledger.build_get_txn_author_agreement_request()
-#    print(taa_req)
-#    taa_resp = await ledger.submit_request(pool_handle, wallet_handle, steward_did, taa_req)
-#    print(taa_resp)
-#    if taa_resp:
-    if 1:
-        
-        print("Gothere7")
-        #time=datetime.datetime.now().utcformat()
-        #payment_req = await ledger.append_txn_author_agreement_acceptance_to_request(payment_req, text, '1', None, 'service_agreement', 1568937395)
-        #payment_req = await ledger.append_txn_author_agreement_acceptance_to_request(payment_req, None, None, '022bbdd0e22b2ae83498304cd8fe2ba3e33d828f0fe6614ffcbfdcb46c5fd2a7', 'service_agreement', 1568937395)
-        payment_req = await ledger.append_txn_author_agreement_acceptance_to_request(payment_req, None, None, 'db6810310ea1bfc740f6eeade1bb65c26ac9627dda9023328d84117066f39495', 'service_agreement', 1568937395)
-        #payment_req = await ledger.AppendTxnAuthorAgreementAcceptanceToRequest(payment_req, None, None, 'e1135b9882119714728457e520bff94942359295cd06ba5caed9286bda565f4a', 'service_agreement', 1568937395)
+    taa_req = await ledger.build_get_txn_author_agreement_request(steward_did, None)
+    print(taa_req)
+    taa_resp_json = await ledger.sign_and_submit_request(pool_handle, wallet_handle, steward_did, taa_req)
+    print(taa_resp_json)
+    taa_resp=json.loads(taa_resp_json)
+    if taa_resp["result"]["data"]:
+        extras = await payment.prepare_payment_extra_with_acceptance_data(None, taa_resp["result"]["data"]["text"], taa_resp["result"]["data"]["version"], None, 'service_agreement', 1568937395)
+    else:
+        extras = None
+
+    payment_req, payment_method = await payment.build_payment_req(wallet_handle, steward_did,
+                                                                json.dumps(inputs), json.dumps(outputs), extras)
     print("Gothere8")
+   
     logger.debug("Payment request >%s<", payment_req)
     logger.debug("After build_payment_req")
 
@@ -405,8 +413,34 @@ async def xferTokens(network, NYMs):
                 source_payment_address=StagingPaymentAddress
             else:   # Testing
                 source_payment_address=TrainingPaymentAddress 
+            
+            # First find out the xfer fee...
+            xfer_fee = 0
+            logger.debug("Before build_get_txn_fees_req.")
+            xfer_fee_req = await payment.build_get_txn_fees_req(steward_wallet_handle, steward_did, PAYMENT_METHOD)
+            logger.debug("Before sign_and_submit_build_get_txn_fees_req. >>>>>%s<<<<<",xfer_fee_req)
+            print(pool_handle)
+            print(steward_wallet_handle)
+            print(steward_did)
+            xfer_fee_resp = await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, xfer_fee_req)
+            logger.debug("Before parse_get_txn_fees_resp.")
+            parse_xfer_fee = await payment.parse_get_txn_fees_response(PAYMENT_METHOD, xfer_fee_resp)
+            print(parse_xfer_fee)
+            #parse_xfer_fee_json = json.loads(parse_xfer_fee)
+            logger.debug("Before build_get_auth_rule_request.")
+            auth_rule_req = await ledger.build_get_auth_rule_request(steward_did, "10001", "ADD", "*", None, "*")
+            auth_rule_resp = await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, auth_rule_req)
+            #auth_rule_resp_json = json.loads(auth_rule_resp)
+            logger.debug("Before payment.get_request_info.")
+            xfer_auth_fee_resp = await payment.get_request_info(auth_rule_resp, '{ "sig_count" : 1 }', parse_xfer_fee) # { "sig_count" : 1 }
+            print(xfer_auth_fee_resp)
+            xfer_auth_fee_resp_json = json.loads(xfer_auth_fee_resp)
+            xfer_fee = xfer_auth_fee_resp_json["price"]
+            print(xfer_fee)
+            logger.debug("After get_request_info.")
+            #exit()
             await validateSourcePaymentAddress(pool_handle, steward_wallet_handle, steward_did,
-                                           source_payment_address, DEFAULT_TOKENS_AMOUNT) #entry.get('tokensAmount'))
+                                           source_payment_address, DEFAULT_TOKENS_AMOUNT, xfer_fee)
 
             reason = "Source Payment Address contains enough tokens. Transferring is allowed."
             # Log that a check for source payment address on STN is in done.
@@ -426,7 +460,7 @@ async def xferTokens(network, NYMs):
             target_tokens_amount = DEFAULT_TOKENS_AMOUNT #entry.get('tokensAmount')
 
             await transferTokens(pool_handle, steward_wallet_handle, steward_did, source_payment_address,
-                             target_payment_address, target_tokens_amount)
+                             target_payment_address, target_tokens_amount, xfer_fee)
 
             status = "Success"
             reason_inner = "Successfully transferred %s Sovatoms to %s payment address" % (
@@ -475,10 +509,10 @@ def isPaymentAddress(payment_address: str):
     payment_address = payment_address[8:] if payment_address.startswith(PAYMENT_PREFIX) else payment_address
 
     if not isb58ofLength(payment_address, 36):
-        return "Unqualified payment address %s is not a 32 byte base58 encoded string." % payment_address
+        return "Invalid payment address: %s" % payment_address
 
 async def validateSourcePaymentAddress(pool_handle, wallet_handle, steward_did, source_payment_address,
-                                       target_tokens_amount):
+                                       target_tokens_amount, xfer_fee):
     logger.debug("Check for existence of token sources")
     token_sources = await getTokenSources(pool_handle, wallet_handle, steward_did, source_payment_address)
 
@@ -491,7 +525,7 @@ async def validateSourcePaymentAddress(pool_handle, wallet_handle, steward_did, 
     target_tokens_amount = target_tokens_amount or DEFAULT_TOKENS_AMOUNT
     logger.debug("Tokens amount to transfer >%s<", target_tokens_amount)
 
-    if sum(source['amount'] for source in token_sources) < target_tokens_amount:
+    if sum(source['amount'] for source in token_sources) < target_tokens_amount + xfer_fee:
         err = Exception("Not enough payment sources found to transfer %s tokens" % target_tokens_amount)
         err.status_code = 400
         logging.error(err)
@@ -761,6 +795,8 @@ def my_handler(event, context):
 async def handle_nym_req(request):
     responseCode = 200
     responseBody={}
+    responseBody_nym={}
+    responseBody_xfer={}
     tmp_errors=[]
 
     nyms = []
@@ -800,19 +836,30 @@ async def handle_nym_req(request):
 
         if nyms[0]['DID'] and nyms[0]['verkey']:
             logger.debug("Call addNYMs...")
-            responseBody = await addNYMs(poolName, nyms)
+            responseBody_nym = await addNYMs(poolName, nyms)
             logger.debug("Adding nym is complete...")
         if nyms[0]['paymentaddr']:
             logger.debug("Call xferTokens...")
             #TODO need to append to responsebody here rather than overwriting it
-            responseBody = await xferTokens(poolName, nyms)
+            responseBody_xfer = await xferTokens(poolName, nyms)
             logger.debug("Xfer Tokens is complete...")
         else:
             print("The payment address was blank, did not try to transfer tokens this time.")
             #Add appropriate messaging to error handling stuff?  Its okay if this is  blank and all they wanted was nore a nym, so this is not an error 
-
+        if responseBody_nym: 
+            responseBody = responseBody_nym
+        elif responseBody_xfer:
+            responseBody = responseBody_xfer
+        print(responseBody)
+        if responseBody_xfer and responseBody_nym:
+            print("Gothere 11")
+            responseBody[nyms[0]['DID']]['status'] = "DID: " + responseBody_nym[nyms[0]['DID']]['status'] + ", TOKEN: " + responseBody_xfer[nyms[0]['DID']]['status']
+            print(responseBody)
+            responseBody[nyms[0]['DID']]['statusCode'] = "DID: " + str(responseBody_nym[nyms[0]['DID']]['statusCode']) + ", TOKEN: " + str(responseBody_xfer[nyms[0]['DID']]['statusCode'])
+            print(responseBody)
+            responseBody[nyms[0]['DID']]['reason'] = "DID: " + responseBody_nym[nyms[0]['DID']]['reason'] + ", TOKEN: " + responseBody_xfer[nyms[0]['DID']]['reason']
+            print(responseBody)
     else:
-        #print("Got here 2\n")
         logger.debug("Errors found in request...")
         # Return validation errors. Validation errors are keyed on DID. Just add
         # a statusCode of 400 and set responseBody to the errors dict.
@@ -825,6 +872,7 @@ async def handle_nym_req(request):
     else:
         responseCode = 0
 
+#TODO return just part of the responseBody?
     response = {
         'statusCode': responseCode,
         'headers': {
