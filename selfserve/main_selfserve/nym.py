@@ -26,7 +26,7 @@ from indy.error import ErrorCode, IndyError
 #StagingNetPool = "testpool" #"stagingnet"
 Wallet = "stewardauto" #"test"
 WalletKey = "stewardauto" #"test"
-StewardDID = "V5qJo72nMeF7x3ci8Zv2WP" #"Th7MpTaRZVRYnPiabds81Y" #"V5qJo72nMeF7x3ci8Zv2WP"
+StewardDID = "V5qJo72nMeF7x3ci8Zv2WP" #"Th7MpTaRZVRYnPiabds81Y"
 BuilderPaymentAddress="pay:sov:52CuALbWKBX66sDnmf8zL5HvxFYyjzFNuaibERRNhPgKP1bBu"
 StagingPaymentAddress="pay:sov:2k8PCrjjMZUpQo6XGef1duDpeFQrhHf3A2BnWKmMBh5nuegNuD"
 TrainingPaymentAddress="pay:sov:4RqyLsoQokLaYRuqb8YS3z6Rr7ouTy8UBGzB6QzjiYRaiZiK1"
@@ -506,9 +506,11 @@ async def xferTokens(network, NYMs):
 
 def isPaymentAddress(payment_address: str):
     logger.debug("Validating payment address %s" % payment_address)
-    payment_address = payment_address[8:] if payment_address.startswith(PAYMENT_PREFIX) else payment_address
-
-    if not isb58ofLength(payment_address, 36):
+    if payment_address.startswith(PAYMENT_PREFIX):
+        payment_address_core = payment_address[8:] #if payment_address.startswith(PAYMENT_PREFIX) else payment_address
+    else:
+        return "Invalid payment address: %s  Payment address must begin with 'pay:sov:'" % payment_address
+    if not isb58ofLength(payment_address_core, 36):
         return "Invalid payment address: %s" % payment_address
 
 async def validateSourcePaymentAddress(pool_handle, wallet_handle, steward_did, source_payment_address,
