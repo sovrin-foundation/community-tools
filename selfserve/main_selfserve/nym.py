@@ -77,6 +77,10 @@ async def addNYMs(network, NYMs):
 
     logger.debug("Before open pool ledger %s.", pool_name)
     pool_handle = await pool.open_pool_ledger(pool_name, None)
+#    wait5seconds=5
+#    while NOT pool_handle AND wait5seconds-- > 0:
+#        sleep(1)
+#        pool_handle = await pool.open_pool_ledger(pool_name, None)
     logger.debug("After open pool ledger %s.", pool_name)
  
     # Open Wallet and Get Wallet Handle
@@ -96,71 +100,22 @@ async def addNYMs(network, NYMs):
     # Prepare and send NYM transactions
     isotimestamp = datetime.datetime.now().isoformat()
     for entry in NYMs:
-        status = "Pending"
-        statusCode = 200
-        reason = "Check if DID already exists."
-        logger.debug("Check if did >%s< is an emptry string" % entry["DID"])
-        if (len(entry["DID"]) == 0):
-           break
+        try:
+            status = "Pending"
+            statusCode = 200
+            reason = "Check if DID already exists."
+            logger.debug("Check if did >%s< is an emptry string" % entry["DID"])
+            if (len(entry["DID"]) == 0):
+                break
 
-        # Log that a check for did on Network is in progress. Logging this
-        # status/reason may be useful in determining where interation with the Network
-        # may be a problem (timeouts).
-        #logger.debug("Before write Endorser registration log")
-        #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
-        #logger.debug("After write Endorser registration log")
+            # Log that a check for did on Network is in progress. Logging this
+            # status/reason may be useful in determining where interation with the Network
+            # may be a problem (timeouts).
+            #logger.debug("Before write Endorser registration log")
+            #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
+            #logger.debug("After write Endorser registration log")
   
         # Does the DID we are assigning Endorser role exist on the ledger?
-        logger.debug("Before build_get_nym_request")
-        get_nym_txn_req = await ledger.build_get_nym_request(steward_did, entry["DID"])
-        logger.debug("After build_get_nym_request")
-        logger.debug("Before submit_request")
-        get_nym_txn_resp = await ledger.submit_request(pool_handle, get_nym_txn_req)
-        logger.debug("After submit_request")
-        logger.debug("submit_request JSON response >%s<", get_nym_txn_resp)
-        get_nym_txn_resp = json.loads(get_nym_txn_resp)
-  
-        # Create identity owner if it does not yet exist
-        if (get_nym_txn_resp['result']['data'] == None):
-            reason = "DID does not exist. Creating Endorser identity."
-            # Log that a check for did on STN is in progress. Logging this
-            # status/reason may be useful in determining where interation with the STN
-            # may be a problem (timeouts).
-            #logger.debug("Before write Endorser registration log")
-            #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
-            #logger.debug("After write Endorser registration log")
-
-            logger.debug("DID %s does not exist on the ledger. Will create identity owner with role %s.", entry["DID"], entry["role"])
-            logger.debug("Before build_nym_request")
-            nym_txn_req = await ledger.build_nym_request(steward_did, entry["DID"], entry["verkey"], entry["name"], entry["role"])
-            logger.debug("Before append TAA to build_nym request")
-            add_taa_req = await ledger.build_get_txn_author_agreement_request(steward_did, None)
-            print(add_taa_req)
-            add_taa_resp_json = await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, add_taa_req)
-            print(add_taa_resp_json)
-            add_taa_resp=json.loads(add_taa_resp_json)
-            if add_taa_resp["result"]["data"]:
-                nym_txn_req = await ledger.append_txn_author_agreement_acceptance_to_request(nym_txn_req, add_taa_resp["result"]["data"]["text"], add_taa_resp["result"]["data"]["version"], None, 'service_agreement', 1568937395)
-            logger.debug("After append TAA to build_nym request")
-            logger.debug("After build_nym_request")
-
-            logger.debug("Before sign_and_submit_request")
-            await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, nym_txn_req)
-            logger.debug("After sign_and_submit_request")
-            logger.debug("Before sleep 3 seconds")
-            await asyncio.sleep(3)
-            logger.debug("After sleep 3 seconds")
-
-            reason = "Endorser identity written to the ledger. Confirming DID exists on the ledger."
-            # Log that a check for did on STN is in progress. Logging this
-            # status/reason may be useful in determining where interation with the STN
-            # may be a problem (timeouts).
-            #logger.debug("Before write Endorser registration log")
-            #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
-            #logger.debug("After write Endorser registration log")
-
-            # Make sure the identity was written to the ledger with the correct role
-            logger.debug("Make sure DID was written to the ledger with a ENDORSER role")
             logger.debug("Before build_get_nym_request")
             get_nym_txn_req = await ledger.build_get_nym_request(steward_did, entry["DID"])
             logger.debug("After build_get_nym_request")
@@ -169,35 +124,90 @@ async def addNYMs(network, NYMs):
             logger.debug("After submit_request")
             logger.debug("submit_request JSON response >%s<", get_nym_txn_resp)
             get_nym_txn_resp = json.loads(get_nym_txn_resp)
-            if (get_nym_txn_resp['result']['data'] != None):
-                get_nym_txn_resp = json.loads(get_nym_txn_resp['result']['data'])
-                # TODO: figure out how to map "ENDORSER" to the numeric "101"
-                #       without hardcoding it.
-                if (get_nym_txn_resp['role'] != "101"):
+  
+            # Create identity owner if it does not yet exist
+            if (get_nym_txn_resp['result']['data'] == None):
+                reason = "DID does not exist. Creating Endorser identity."
+                # Log that a check for did on STN is in progress. Logging this
+                # status/reason may be useful in determining where interation with the STN
+                # may be a problem (timeouts).
+                #logger.debug("Before write Endorser registration log")
+                #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
+                #logger.debug("After write Endorser registration log")
+
+                logger.debug("DID %s does not exist on the ledger. Will create identity owner with role %s.", entry["DID"], entry["role"])
+                logger.debug("Before build_nym_request")
+                nym_txn_req = await ledger.build_nym_request(steward_did, entry["DID"], entry["verkey"], entry["name"], entry["role"])
+                logger.debug("Before append TAA to build_nym request")
+                add_taa_req = await ledger.build_get_txn_author_agreement_request(steward_did, None)
+                print(add_taa_req)
+                add_taa_resp_json = await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, add_taa_req)
+                print(add_taa_resp_json)
+                add_taa_resp=json.loads(add_taa_resp_json)
+                if add_taa_resp["result"]["data"]:
+                    nym_txn_req = await ledger.append_txn_author_agreement_acceptance_to_request(nym_txn_req, add_taa_resp["result"]["data"]["text"], add_taa_resp["result"]["data"]["version"], None, 'service_agreement', 1568937395)
+                logger.debug("After append TAA to build_nym request")
+                logger.debug("After build_nym_request")
+   
+                logger.debug("Before sign_and_submit_request")
+                await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, nym_txn_req)
+                logger.debug("After sign_and_submit_request")
+                logger.debug("Before sleep 3 seconds")
+                await asyncio.sleep(3)
+                logger.debug("After sleep 3 seconds")
+   
+                reason = "Endorser identity written to the ledger. Confirming DID exists on the ledger."
+                # Log that a check for did on STN is in progress. Logging this
+                # status/reason may be useful in determining where interation with the STN
+                # may be a problem (timeouts).
+                #logger.debug("Before write Endorser registration log")
+                #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
+                #logger.debug("After write Endorser registration log")
+
+                # Make sure the identity was written to the ledger with the correct role
+                logger.debug("Make sure DID was written to the ledger with a ENDORSER role")
+                logger.debug("Before build_get_nym_request")
+                get_nym_txn_req = await ledger.build_get_nym_request(steward_did, entry["DID"])
+                logger.debug("After build_get_nym_request")
+                logger.debug("Before submit_request")
+                get_nym_txn_resp = await ledger.submit_request(pool_handle, get_nym_txn_req)
+                logger.debug("After submit_request")
+                logger.debug("submit_request JSON response >%s<", get_nym_txn_resp)
+                get_nym_txn_resp = json.loads(get_nym_txn_resp)
+                if (get_nym_txn_resp['result']['data'] != None):
+                    get_nym_txn_resp = json.loads(get_nym_txn_resp['result']['data'])
+                    # TODO: figure out how to map "ENDORSER" to the numeric "101"
+                    #       without hardcoding it.
+                    if (get_nym_txn_resp['role'] != "101"):
+                        # TODO: Give a more accurate reason why the write to the ledger failed.
+                        status = "Error"
+                        statusCode = 404
+                        reason = "Failed to write NYM identified by %s to the ledger with role %s. NYM exists, but with the wrong role. Role ID is %s" % (entry["DID"], entry["role"], get_nym_txn_resp['role'])
+                        logger.error(reason)
+                    else:
+                        status = "Success"
+                        statusCode = 200
+                        reason = "Successfully wrote NYM identified by %s to the ledger with role %s" % (entry["DID"], entry["role"])
+                        logger.debug(reason)
+                else:
                     # TODO: Give a more accurate reason why the write to the ledger failed.
                     status = "Error"
-                    statusCode = 404
-                    reason = "Failed to write NYM identified by %s to the ledger with role %s. NYM exists, but with the wrong role. Role ID is %s" % (entry["DID"], entry["role"], get_nym_txn_resp['role'])
+                    statusCode = 500
+                    reason = "Attempted to get NYM identified by %s from the ledger to verify role %s was given. Did not find the NYM on the ledger." % (entry["DID"], entry["role"])
                     logger.error(reason)
-                else:
-                    status = "Success"
-                    statusCode = 200
-                    reason = "Successfully wrote NYM identified by %s to the ledger with role %s" % (entry["DID"], entry["role"])
-                    logger.debug(reason)
             else:
-                # TODO: Give a more accurate reason why the write to the ledger failed.
-                status = "Error"
-                statusCode = 500
-                reason = "Attempted to get NYM identified by %s from the ledger to verify role %s was given. Did not find the NYM on the ledger." % (entry["DID"], entry["role"])
-                logger.error(reason)
-        else:
-            # TODO: DID already exists on the ledger. A Steward cannot modify an
-            #       existing identity.
-            status = "Success"
-            statusCode = 200
-            reason = "NYM %s already exists on the ledger." % entry["DID"]
-            logger.debug(reason)
-      #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
+                # TODO: DID already exists on the ledger. A Steward cannot modify an
+                #       existing identity.
+                status = "Success"
+                statusCode = 200
+                reason = "NYM %s already exists on the ledger." % entry["DID"]
+                logger.debug(reason)
+            #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
+        except Exception as err:
+            status = "Error"
+            statusCode = err.status_code
+            reason = str(err)
+            logger.error(err)
 
       # Add status and reason for the status for each DID to the result
         result[entry["DID"]] = {
@@ -795,6 +805,7 @@ def my_handler(event, context):
     return response
 
 async def handle_nym_req(request):
+    pool_lock = request.app['pool_lock']
     responseCode = 200
     responseBody={}
     responseBody_nym={}
@@ -838,7 +849,8 @@ async def handle_nym_req(request):
 
         if nyms[0]['DID'] and nyms[0]['verkey']:
             logger.debug("Call addNYMs...")
-            responseBody_nym = await addNYMs(poolName, nyms)
+            async with pool_lock:
+                responseBody_nym = await addNYMs(poolName, nyms)
             logger.debug("Adding nym is complete...")
         if nyms[0]['paymentaddr']:
             logger.debug("Call xferTokens...")
@@ -984,4 +996,4 @@ def main():
 
 
 if __name__ == "__main__":
-        main()
+    main()
