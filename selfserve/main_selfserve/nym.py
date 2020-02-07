@@ -72,6 +72,7 @@ async def addNYMs(network, NYMs):
 
     steward_did = StewardDID
     # Open pool ledger
+    utctimestamp = int(datetime.datetime.utcnow().timestamp())
     pool_name = network
     await pool.set_protocol_version(2)
 
@@ -145,16 +146,16 @@ async def addNYMs(network, NYMs):
                 print(add_taa_resp_json)
                 add_taa_resp=json.loads(add_taa_resp_json)
                 if add_taa_resp["result"]["data"]:
-                    nym_txn_req = await ledger.append_txn_author_agreement_acceptance_to_request(nym_txn_req, add_taa_resp["result"]["data"]["text"], add_taa_resp["result"]["data"]["version"], None, 'service_agreement', 1568937395)
+                    nym_txn_req = await ledger.append_txn_author_agreement_acceptance_to_request(nym_txn_req, add_taa_resp["result"]["data"]["text"], add_taa_resp["result"]["data"]["version"], None, 'service_agreement', utctimestamp)
                 logger.debug("After append TAA to build_nym request")
                 logger.debug("After build_nym_request")
    
                 logger.debug("Before sign_and_submit_request")
                 await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, nym_txn_req)
                 logger.debug("After sign_and_submit_request")
-                logger.debug("Before sleep 3 seconds")
-                await asyncio.sleep(3)
-                logger.debug("After sleep 3 seconds")
+                logger.debug("Before sleep .3 seconds")
+                await asyncio.sleep(.3)
+                logger.debug("After sleep .3 seconds")
    
                 reason = "Endorser identity written to the ledger. Confirming DID exists on the ledger."
                 # Log that a check for did on STN is in progress. Logging this
@@ -291,6 +292,7 @@ async def createPaymentAddess(wallet_handle, address_seed):
 
 async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment_address, target_payment_address,
                          target_tokens_amount, xfer_fee):
+    utctimestamp = int(datetime.datetime.utcnow().timestamp())
     logger.debug("Before getting all token sources")
     token_sources = await getTokenSources(pool_handle, wallet_handle, steward_did, source_payment_address)
     print(token_sources)
@@ -327,7 +329,7 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
     print(taa_resp_json)
     taa_resp=json.loads(taa_resp_json)
     if taa_resp["result"]["data"]:
-        extras = await payment.prepare_payment_extra_with_acceptance_data(None, taa_resp["result"]["data"]["text"], taa_resp["result"]["data"]["version"], None, 'service_agreement', 1568937395)
+        extras = await payment.prepare_payment_extra_with_acceptance_data(None, taa_resp["result"]["data"]["text"], taa_resp["result"]["data"]["version"], None, 'service_agreement', utctimestamp)
     else:
         extras = None
 
@@ -369,6 +371,7 @@ async def xferTokens(network, NYMs):
 
     steward_did = StewardDID
     # Open pool ledger
+    utctimestamp = int(datetime.datetime.utcnow().timestamp())
     pool_name = network
     await pool.set_protocol_version(2)
  
