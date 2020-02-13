@@ -94,7 +94,7 @@ async def addNYMs(network, NYMs):
     # Use Steward DID
     #logger.debug("Before use steward did")
     #steward_did_info = {'did': steward_did}
-    #print(steward_did_info)
+    #logging.debug(steward_did_info)
     #await did.store_their_did(steward_wallet_handle, json.dumps(steward_did_info))
     #logger.debug("After use steward did")
 
@@ -141,9 +141,9 @@ async def addNYMs(network, NYMs):
                 nym_txn_req = await ledger.build_nym_request(steward_did, entry["DID"], entry["verkey"], entry["name"], entry["role"])
                 logger.debug("Before append TAA to build_nym request")
                 add_taa_req = await ledger.build_get_txn_author_agreement_request(steward_did, None)
-                print(add_taa_req)
+                logging.debug(add_taa_req)
                 add_taa_resp_json = await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, add_taa_req)
-                print(add_taa_resp_json)
+                logging.debug(add_taa_resp_json)
                 add_taa_resp=json.loads(add_taa_resp_json)
                 if add_taa_resp["result"]["data"]:
                     nym_txn_req = await ledger.append_txn_author_agreement_acceptance_to_request(nym_txn_req, add_taa_resp["result"]["data"]["text"], add_taa_resp["result"]["data"]["version"], None, 'service_agreement', utctimestamp)
@@ -248,16 +248,16 @@ async def getTokenSources(pool_handle, wallet_handle, steward_did, payment_addre
     logger.debug("After submit_request")
     logger.debug("submit_request JSON response >%s<", get_payment_sources_resp)
     sources_resp_dict=json.loads(get_payment_sources_resp)
-    print("Gothere1")
-    print(sources_resp_dict['op'])
-    print("Gothere1.1")
+    logging.debug("Gothere1")
+    logging.debug(sources_resp_dict['op'])
+    logging.debug("Gothere1.1")
 
     if sources_resp_dict['op'] == "REQNACK":
-        print("Gothere2")
+        logging.debug("Gothere2")
         logger.debug("Invalid Payment Source - Received REQNACK from get_payment_sources")
         return None
     else:
-        print("Gothere3")
+        logging.debug("Gothere3")
         logger.debug("Before parse_get_payment_sources_response")
         parse_get_payment_sources_resp = await payment.parse_get_payment_sources_response(PAYMENT_METHOD,
                                                                               get_payment_sources_resp)
@@ -295,9 +295,9 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
     utctimestamp = int(datetime.datetime.utcnow().timestamp())
     logger.debug("Before getting all token sources")
     token_sources = await getTokenSources(pool_handle, wallet_handle, steward_did, source_payment_address)
-    print(token_sources)
+    logging.debug(token_sources)
     if len(token_sources) == 0:
-        print("Gothere4")
+        logging.debug("Gothere4")
         err = Exception("No token sources found for source payment address %s" % source_payment_address)
         err.status_code = 400
         logging.error(err)
@@ -324,9 +324,9 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
 
     logger.debug("Before TAA")
     taa_req = await ledger.build_get_txn_author_agreement_request(steward_did, None)
-    print(taa_req)
+    logging.debug(taa_req)
     taa_resp_json = await ledger.sign_and_submit_request(pool_handle, wallet_handle, steward_did, taa_req)
-    print(taa_resp_json)
+    logging.debug(taa_resp_json)
     taa_resp=json.loads(taa_resp_json)
     if taa_resp["result"]["data"]:
         extras = await payment.prepare_payment_extra_with_acceptance_data(None, taa_resp["result"]["data"]["text"], taa_resp["result"]["data"]["version"], None, 'service_agreement', utctimestamp)
@@ -335,7 +335,7 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
 
     payment_req, payment_method = await payment.build_payment_req(wallet_handle, steward_did,
                                                                 json.dumps(inputs), json.dumps(outputs), extras)
-    print("Gothere8")
+    logging.debug("Gothere8")
    
     logger.debug("Payment request >%s<", payment_req)
     logger.debug("After build_payment_req")
@@ -390,7 +390,7 @@ async def xferTokens(network, NYMs):
 
     try:
         entry=NYMs[0] #I expect that there will only ever be 1 entry in NYMs because I only expect this to ever be called from the Browser.
-        print(entry)
+        logging.debug(entry)
         if entry.get('paymentaddr'):
             reason = "Check if Payment Address already contains tokens."
 
@@ -432,13 +432,13 @@ async def xferTokens(network, NYMs):
             logger.debug("Before build_get_txn_fees_req.")
             xfer_fee_req = await payment.build_get_txn_fees_req(steward_wallet_handle, steward_did, PAYMENT_METHOD)
             logger.debug("Before sign_and_submit_build_get_txn_fees_req. >>>>>%s<<<<<",xfer_fee_req)
-            print(pool_handle)
-            print(steward_wallet_handle)
-            print(steward_did)
+            logging.debug(pool_handle)
+            logging.debug(steward_wallet_handle)
+            logging.debug(steward_did)
             xfer_fee_resp = await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, xfer_fee_req)
             logger.debug("Before parse_get_txn_fees_resp.")
             parse_xfer_fee = await payment.parse_get_txn_fees_response(PAYMENT_METHOD, xfer_fee_resp)
-            print(parse_xfer_fee)
+            logging.debug(parse_xfer_fee)
             #parse_xfer_fee_json = json.loads(parse_xfer_fee)
             logger.debug("Before build_get_auth_rule_request.")
             auth_rule_req = await ledger.build_get_auth_rule_request(steward_did, "10001", "ADD", "*", None, "*")
@@ -446,10 +446,10 @@ async def xferTokens(network, NYMs):
             #auth_rule_resp_json = json.loads(auth_rule_resp)
             logger.debug("Before payment.get_request_info.")
             xfer_auth_fee_resp = await payment.get_request_info(auth_rule_resp, '{ "sig_count" : 1 }', parse_xfer_fee) # { "sig_count" : 1 }
-            print(xfer_auth_fee_resp)
+            logging.debug(xfer_auth_fee_resp)
             xfer_auth_fee_resp_json = json.loads(xfer_auth_fee_resp)
             xfer_fee = xfer_auth_fee_resp_json["price"]
-            print(xfer_fee)
+            logging.debug(xfer_fee)
             logger.debug("After get_request_info.")
             #exit()
             await validateSourcePaymentAddress(pool_handle, steward_wallet_handle, steward_did,
@@ -549,7 +549,7 @@ async def validateSourcePaymentAddress(pool_handle, wallet_handle, steward_did, 
 async def validateTargetPaymentAddress(pool_handle, wallet_handle, steward_did, target_payment_address, target_tokens_amount):
     logger.debug("Check for valid target payment address")
     isvalid=isPaymentAddress(target_payment_address)
-    print(isvalid)
+    logging.debug(isvalid)
     if isvalid is not None:
         err = Exception(isvalid)
         err.status_code = 409
@@ -844,7 +844,7 @@ async def handle_nym_req(request):
 
     # Check if errors is an empty dict
     if bool(errors) == False:
-        #print("Got here 1\n")
+        #logging.debug("Got here 1\n")
         logger.debug("No errors found in request...")
         # Get the steward seed and pool genesis file
 
@@ -861,21 +861,21 @@ async def handle_nym_req(request):
             responseBody_xfer = await xferTokens(poolName, nyms)
             logger.debug("Xfer Tokens is complete...")
         else:
-            print("The payment address was blank, did not try to transfer tokens this time.")
+            logging.debug("The payment address was blank, did not try to transfer tokens this time.")
             #Add appropriate messaging to error handling stuff?  Its okay if this is  blank and all they wanted was nore a nym, so this is not an error 
         if responseBody_nym: 
             responseBody = responseBody_nym
         elif responseBody_xfer:
             responseBody = responseBody_xfer
-        print(responseBody)
+        logging.debug(responseBody)
         if responseBody_xfer and responseBody_nym:
-            print("Gothere 11")
+            logging.debug("Gothere 11")
             responseBody[nyms[0]['DID']]['status'] = "DID: " + responseBody_nym[nyms[0]['DID']]['status'] + ", TOKEN: " + responseBody_xfer[nyms[0]['DID']]['status']
-            print(responseBody)
+            logging.debug(responseBody)
             responseBody[nyms[0]['DID']]['statusCode'] = "DID: " + str(responseBody_nym[nyms[0]['DID']]['statusCode']) + ", TOKEN: " + str(responseBody_xfer[nyms[0]['DID']]['statusCode'])
-            print(responseBody)
+            logging.debug(responseBody)
             responseBody[nyms[0]['DID']]['reason'] = "DID: " + responseBody_nym[nyms[0]['DID']]['reason'] + ", TOKEN: " + responseBody_xfer[nyms[0]['DID']]['reason']
-            print(responseBody)
+            logging.debug(responseBody)
     else:
         logger.debug("Errors found in request...")
         # Return validation errors. Validation errors are keyed on DID. Just add
@@ -883,7 +883,7 @@ async def handle_nym_req(request):
         errors['statusCode'] = 400
         responseBody = errors
 
-    #print(responseBody)
+    #logging.debug(responseBody)
     if responseBody:
         responseCode = responseBody['statusCode']
     else:
@@ -990,7 +990,7 @@ def main():
         'body': json.dumps(responseBody)
     }
     logging.debug("response: %s" % json.dumps(response))
-    print("%s" % json.dumps(response))
+    logging.debug("%s" % json.dumps(response))
   
     if responseCode != 200:
        sys.exit(1)
