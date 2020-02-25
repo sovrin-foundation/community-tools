@@ -61,6 +61,17 @@ div {
     width:100%;
     min-height:70px;
 }
+#Submit {
+  width: 100px;
+  height: 40px;
+  font-size: 26px;
+  text-align: center;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
 .moveimage
 {
     padding: 20px;
@@ -223,7 +234,16 @@ function addEndorser () {
         </tr>
         <tr>
           <td colspan="2">
-           <input style="width:100px;height:28px;font-size:20px;" id="Submit" type="button" value="Submit" onclick="addEndorser();" />
+            <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a>
+            </p>
+          </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="4">
+           <input id="Submit" type="button" value="Submit" onclick="addEndorser();" />
           </td>
         </tr>
       </table>
@@ -237,7 +257,7 @@ function addEndorser () {
 </div>
 </div>
 <div>
-  <a href=https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E> Help me get a DID and Payment Address!</a>
+  <a href=https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E target="_blank"> Help me get a DID and Payment Address!</a>
 </div> 
 <div id="copyright">
 <hr />
