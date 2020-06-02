@@ -24,8 +24,6 @@ from indy.error import ErrorCode, IndyError
 
 #BuilderNetPool = "testpool" #"buildernet"
 #StagingNetPool = "testpool" #"stagingnet"
-Wallet = "stewardauto" #"test"
-WalletKey = "stewardauto" #"test"
 StewardDID = "V5qJo72nMeF7x3ci8Zv2WP" #"Th7MpTaRZVRYnPiabds81Y"
 BuilderPaymentAddress="pay:sov:52CuALbWKBX66sDnmf8zL5HvxFYyjzFNuaibERRNhPgKP1bBu"
 StagingPaymentAddress="pay:sov:2k8PCrjjMZUpQo6XGef1duDpeFQrhHf3A2BnWKmMBh5nuegNuD"
@@ -36,11 +34,7 @@ PAYMENT_METHOD = 'sov'
 PAYMENT_PREFIX = 'pay:sov:'
 DEFAULT_TOKENS_AMOUNT=200000000000
 
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('selfserv')
-
-indy_logger = logging.getLogger('indy') #(__name__)
-indy_logger.setLevel(logging.DEBUG)
 
 # Uncomment the following to write logs to STDOUT
 #
@@ -77,15 +71,9 @@ async def addNYMs(network, handles, NYMs):
     # Open pool ledger
     utctimestamp = int(datetime.datetime.utcnow().timestamp())
     pool_name = network
-    await pool.set_protocol_version(2)
 
-    if handles['pools'][network] == None:
-        logger.info("First time open pool ledger %s.", pool_name)
-        handles['pools'][network] = await pool.open_pool_ledger(pool_name, None)
-        pool_handle = handles['pools'][network]
-    else:
-        logger.info("Reusing open pool ledger handle for %s.", pool_name)
-        pool_handle = handles['pools'][network]
+    logger.info("Using open pool ledger handle for %s.", pool_name)
+    pool_handle = handles['pools'][network]
 #    wait5seconds=5
 #    while NOT pool_handle AND wait5seconds-- > 0:
 #        sleep(1)
@@ -93,16 +81,8 @@ async def addNYMs(network, handles, NYMs):
     logger.debug("After open pool ledger %s.", pool_name)
 
     # Open Wallet and Get Wallet Handle
-    if handles['wallet'] == None:
-        logger.info("First time opening steward_wallet")
-        wallet_name = Wallet
-        wallet_config = json.dumps({"id": wallet_name})
-        wallet_credentials = json.dumps({"key": WalletKey})
-        handles['wallet'] = await wallet.open_wallet(wallet_config, wallet_credentials)
-        steward_wallet_handle = handles['wallet']
-    else:
-        logger.info("Reusing already opened steward wallet handle")
-        steward_wallet_handle = handles['wallet']
+    logger.info("Using steward wallet handle")
+    steward_wallet_handle = handles['wallet']
 
     # Use Steward DID
     #logger.debug("Before use steward did")
@@ -378,27 +358,12 @@ async def xferTokens(network, handles, NYMs):
     # Open pool ledger
     utctimestamp = int(datetime.datetime.utcnow().timestamp())
     pool_name = network
-    await pool.set_protocol_version(2)
-
-    if handles['pools'][network] == None:
-        logger.info("First time open pool ledger %s.", pool_name)
-        handles['pools'][network] = await pool.open_pool_ledger(pool_name, None)
-        pool_handle = handles['pools'][network]
-    else:
-        logger.info("Reusing open pool ledger handle for %s.", pool_name)
-        pool_handle = handles['pools'][network]
+    logger.info("Using open pool ledger handle for %s.", pool_name)
+    pool_handle = handles['pools'][network]
 
     # Open Wallet and Get Wallet Handle
-    if handles['wallet'] == None:
-        logger.info("First time opening steward_wallet")
-        wallet_name = Wallet
-        wallet_config = json.dumps({"id": wallet_name})
-        wallet_credentials = json.dumps({"key": WalletKey})
-        handles['wallet'] = await wallet.open_wallet(wallet_config, wallet_credentials)
-        steward_wallet_handle = handles['wallet']
-    else:
-        logger.info("Reusing already opened steward wallet handle")
-        steward_wallet_handle = handles['wallet']
+    logger.info("Using steward wallet handle")
+    steward_wallet_handle = handles['wallet']
 
     isotimestamp = datetime.datetime.now().isoformat()
 
@@ -814,7 +779,6 @@ def my_handler(event, context):
     return response
 
 async def handle_nym_req(request):
-    pool_lock = request.app['pool_lock']
     handles = request.app['handles']
     responseCode = 200
     responseBody={}
@@ -859,8 +823,7 @@ async def handle_nym_req(request):
 
         if nyms[0]['DID'] and nyms[0]['verkey']:
             logger.debug("Call addNYMs...")
-            async with pool_lock:
-                responseBody_nym = await addNYMs(poolName, handles, nyms)
+            responseBody_nym = await addNYMs(poolName, handles, nyms)
             logger.debug("Adding nym is complete...")
         if nyms[0]['paymentaddr']:
             logger.debug("Call xferTokens...")
