@@ -24,8 +24,6 @@ from indy.error import ErrorCode, IndyError
 
 #BuilderNetPool = "testpool" #"buildernet"
 #StagingNetPool = "testpool" #"stagingnet"
-Wallet = "stewardauto" #"test"
-WalletKey = "stewardauto" #"test"
 StewardDID = "V5qJo72nMeF7x3ci8Zv2WP" #"Th7MpTaRZVRYnPiabds81Y"
 BuilderPaymentAddress="pay:sov:52CuALbWKBX66sDnmf8zL5HvxFYyjzFNuaibERRNhPgKP1bBu"
 StagingPaymentAddress="pay:sov:2k8PCrjjMZUpQo6XGef1duDpeFQrhHf3A2BnWKmMBh5nuegNuD"
@@ -36,8 +34,7 @@ PAYMENT_METHOD = 'sov'
 PAYMENT_PREFIX = 'pay:sov:'
 DEFAULT_TOKENS_AMOUNT=200000000000
 
-logger = logging.getLogger('indy') #(__name__)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger('selfserv')
 
 # Uncomment the following to write logs to STDOUT
 #
@@ -64,7 +61,7 @@ async def writeEndorserRegistrationLog(entry, status, reason, isotimestamp):
                     }
                 )
 
-async def addNYMs(network, NYMs):
+async def addNYMs(network, handles, NYMs):
     # A dict to hold the results keyed on DID
     result = {
         "statusCode": 200
@@ -74,22 +71,18 @@ async def addNYMs(network, NYMs):
     # Open pool ledger
     utctimestamp = int(datetime.datetime.utcnow().timestamp())
     pool_name = network
-    await pool.set_protocol_version(2)
 
-    logger.debug("Before open pool ledger %s.", pool_name)
-    pool_handle = await pool.open_pool_ledger(pool_name, None)
+    logger.info("Using open pool ledger handle for %s.", pool_name)
+    pool_handle = handles['pools'][network]
 #    wait5seconds=5
 #    while NOT pool_handle AND wait5seconds-- > 0:
 #        sleep(1)
 #        pool_handle = await pool.open_pool_ledger(pool_name, None)
     logger.debug("After open pool ledger %s.", pool_name)
- 
+
     # Open Wallet and Get Wallet Handle
-    logger.debug("Before open steward_wallet")
-    wallet_name = Wallet
-    wallet_config = json.dumps({"id": wallet_name})
-    wallet_credentials = json.dumps({"key": WalletKey})
-    steward_wallet_handle = await wallet.open_wallet(wallet_config, wallet_credentials)
+    logger.info("Using steward wallet handle")
+    steward_wallet_handle = handles['wallet']
 
     # Use Steward DID
     #logger.debug("Before use steward did")
@@ -115,7 +108,7 @@ async def addNYMs(network, NYMs):
             #logger.debug("Before write Endorser registration log")
             #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
             #logger.debug("After write Endorser registration log")
-  
+
         # Does the DID we are assigning Endorser role exist on the ledger?
             logger.debug("Before build_get_nym_request")
             get_nym_txn_req = await ledger.build_get_nym_request(steward_did, entry["DID"])
@@ -125,7 +118,7 @@ async def addNYMs(network, NYMs):
             logger.debug("After submit_request")
             logger.debug("submit_request JSON response >%s<", get_nym_txn_resp)
             get_nym_txn_resp = json.loads(get_nym_txn_resp)
-  
+
             # Create identity owner if it does not yet exist
             if (get_nym_txn_resp['result']['data'] == None):
                 reason = "DID does not exist. Creating Endorser identity."
@@ -149,14 +142,14 @@ async def addNYMs(network, NYMs):
                     nym_txn_req = await ledger.append_txn_author_agreement_acceptance_to_request(nym_txn_req, add_taa_resp["result"]["data"]["text"], add_taa_resp["result"]["data"]["version"], None, 'service_agreement', utctimestamp)
                 logger.debug("After append TAA to build_nym request")
                 logger.debug("After build_nym_request")
-   
+
                 logger.debug("Before sign_and_submit_request")
                 await ledger.sign_and_submit_request(pool_handle, steward_wallet_handle, steward_did, nym_txn_req)
                 logger.debug("After sign_and_submit_request")
                 logger.debug("Before sleep .3 seconds")
                 await asyncio.sleep(.3)
                 logger.debug("After sleep .3 seconds")
-   
+
                 reason = "Endorser identity written to the ledger. Confirming DID exists on the ledger."
                 # Log that a check for did on STN is in progress. Logging this
                 # status/reason may be useful in determining where interation with the STN
@@ -222,14 +215,6 @@ async def addNYMs(network, NYMs):
         if statusCode > result['statusCode']:
             logger.debug("Status code >%d< is greater than result.statusCode >%d<", statusCode, result['statusCode'])
             result['statusCode'] = statusCode
-
-    # Close wallets and pool
-    logger.debug("Before close_wallet")
-    await wallet.close_wallet(steward_wallet_handle)
-    logger.debug("After close_wallet")
-    logger.debug("Before close_pool_ledger")
-    await pool.close_pool_ledger(pool_handle)
-    logger.debug("After close_pool_ledger")
 
     return result 
 #    logger.debug("Before set future result")
@@ -336,7 +321,7 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
     payment_req, payment_method = await payment.build_payment_req(wallet_handle, steward_did,
                                                                 json.dumps(inputs), json.dumps(outputs), extras)
     logging.debug("Gothere8")
-   
+
     logger.debug("Payment request >%s<", payment_req)
     logger.debug("After build_payment_req")
 
@@ -359,7 +344,7 @@ async def transferTokens(pool_handle, wallet_handle, steward_did, source_payment
         err.status_code = 500
         raise err
 
-async def xferTokens(network, NYMs):
+async def xferTokens(network, handles, NYMs):
 # A dict to hold the results keyed on DID
     logger.debug("Begin xferTokens Function")
     result = {
@@ -373,18 +358,12 @@ async def xferTokens(network, NYMs):
     # Open pool ledger
     utctimestamp = int(datetime.datetime.utcnow().timestamp())
     pool_name = network
-    await pool.set_protocol_version(2)
- 
-    logger.debug("Before open pool ledger %s.", pool_name)
-    pool_handle = await pool.open_pool_ledger(pool_name, None)
-    logger.debug("After open pool ledger %s.", pool_name)
+    logger.info("Using open pool ledger handle for %s.", pool_name)
+    pool_handle = handles['pools'][network]
 
     # Open Wallet and Get Wallet Handle
-    logger.debug("Before open steward_wallet")
-    wallet_name = Wallet
-    wallet_config = json.dumps({"id": wallet_name})
-    wallet_credentials = json.dumps({"key": WalletKey})
-    steward_wallet_handle = await wallet.open_wallet(wallet_config, wallet_credentials)
+    logger.info("Using steward wallet handle")
+    steward_wallet_handle = handles['wallet']
 
     isotimestamp = datetime.datetime.now().isoformat()
 
@@ -426,7 +405,7 @@ async def xferTokens(network, NYMs):
                 source_payment_address=StagingPaymentAddress
             else:   # Testing
                 source_payment_address=TrainingPaymentAddress 
-            
+
             # First find out the xfer fee...
             xfer_fee = 0
             logger.debug("Before build_get_txn_fees_req.")
@@ -494,14 +473,6 @@ async def xferTokens(network, NYMs):
         logger.error(err)
 
     await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
-
-    # Close wallets and pool
-    logger.debug("Before close_wallet")
-    await wallet.close_wallet(steward_wallet_handle)
-    logger.debug("After close_wallet")
-    logger.debug("Before close_pool_ledger")
-    await pool.close_pool_ledger(pool_handle)
-    logger.debug("After close_pool_ledger")
 
     # Add status and reason for the status for each DID to the result
     result[entry["DID"]] = {
@@ -808,7 +779,7 @@ def my_handler(event, context):
     return response
 
 async def handle_nym_req(request):
-    pool_lock = request.app['pool_lock']
+    handles = request.app['handles']
     responseCode = 200
     responseBody={}
     responseBody_nym={}
@@ -852,8 +823,7 @@ async def handle_nym_req(request):
 
         if nyms[0]['DID'] and nyms[0]['verkey']:
             logger.debug("Call addNYMs...")
-            async with pool_lock:
-                responseBody_nym = await addNYMs(poolName, nyms)
+            responseBody_nym = await addNYMs(poolName, handles, nyms)
             logger.debug("Adding nym is complete...")
         if nyms[0]['paymentaddr']:
             logger.debug("Call xferTokens...")
@@ -923,16 +893,16 @@ def main():
     parser.add_argument('--payment-address', action="store", dest="paymentaddr",
         help="The Endorser's email address.")
     args = parser.parse_args()
-  
+
     # TODO: Add the logic to either add a single record or many from a CSV file.
     nyms = []
-  
+
     # Validate and build nyms from request body; setting name and sourceIP for
     # each nym.
     # TODO: Currently a non-empty 'name' is required. Set the default to None
     #       once ledger.build_nym_request accepts None for the NYM 'name/alias'
     errors = {}
-  
+
     # Mock a body from the client
     body = {
         "did": args.DID,
@@ -940,7 +910,7 @@ def main():
         "name": args.name,
         "paymentaddr": args.paymentaddr
     }
-  
+
     # Mock an event from the AWS API Gateway
     event = {
         "requestContext": {
@@ -955,10 +925,10 @@ def main():
         nyms.append(endorserNym(body, event))
     else:
         errors = addErrors(args.DID, errors, tmp_errors)
-  
+
     if bool(errors) == False:
         poolName = args.genesisFile.split("_")[-2]
-  
+
         loop = asyncio.get_event_loop()
         # Pass the 'future' handle to addNYMs to allow addNYMs to set the future's
         # 'result'.
@@ -967,15 +937,15 @@ def main():
           args.stewardSeed, nyms))
         loop.run_until_complete(future)
         loop.close()
-  
+
         responseBody = future.result()
     else:
         # Return validation errors
         errors['statusCode'] = 400
         responseBody = errors
-  
+
     responseCode = responseBody['statusCode']
-  
+
     # The output from a Lambda proxy integration must be
     # of the following JSON object. The 'headers' property
     # is for custom response headers in addition to standard
@@ -991,7 +961,7 @@ def main():
     }
     logging.debug("response: %s" % json.dumps(response))
     logging.debug("%s" % json.dumps(response))
-  
+
     if responseCode != 200:
        sys.exit(1)
     else:
