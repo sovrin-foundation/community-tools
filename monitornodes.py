@@ -8,7 +8,9 @@
 #     1. unreachable nodes for each node, 
 #     2. send an error message if validator-info call returns "timeout"
 #     3. versions numbers are compared for all nodes and anomolies are reported.
-#     4.            
+#     4. Primary match
+#     5. Freshness check (are nodes in consensus)
+#     6. Timestamp check           
 
 import asyncio
 import json
@@ -70,6 +72,13 @@ async def main():
         if val == "timeout":
             print("Timed out while connecting")
             continue;
+        if val == {}:
+            print("Unknown Error - None value returned")
+            continue;
+        #print (val)
+
+        print("    timestamp: %s" % (str(json.loads(val)["result"]["data"]["timestamp"])))
+
         if str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["0"]["Has_write_consensus"]) in "False":
             print("   ERROR Config Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["0"]["Has_write_consensus"]))
         if str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["1"]["Has_write_consensus"]) in "False":
