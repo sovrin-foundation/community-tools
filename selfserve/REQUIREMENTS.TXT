@@ -1,0 +1,5 @@
+aiohttp
+base58
+aioboto3
+indy
+Python3-indy
