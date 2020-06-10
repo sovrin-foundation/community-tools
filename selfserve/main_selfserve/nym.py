@@ -32,7 +32,7 @@ TrainingPaymentAddress="pay:sov:4RqyLsoQokLaYRuqb8YS3z6Rr7ouTy8UBGzB6QzjiYRaiZiK
 PAYMENT_LIBRARY = 'libsovtoken'
 PAYMENT_METHOD = 'sov'
 PAYMENT_PREFIX = 'pay:sov:'
-DEFAULT_TOKENS_AMOUNT=200000000000
+DEFAULT_TOKENS_AMOUNT=200000000000 #Is this an intentionally large amount??
 
 logger = logging.getLogger('selfserv')
 
@@ -109,7 +109,7 @@ async def addNYMs(network, handles, NYMs):
             #await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
             #logger.debug("After write Endorser registration log")
 
-        # Does the DID we are assigning Endorser role exist on the ledger?
+            # Does the DID we are assigning Endorser role exist on the ledger?
             logger.debug("Before build_get_nym_request")
             get_nym_txn_req = await ledger.build_get_nym_request(steward_did, entry["DID"])
             logger.debug("After build_get_nym_request")
@@ -239,7 +239,7 @@ async def getTokenSources(pool_handle, wallet_handle, steward_did, payment_addre
 
     if sources_resp_dict['op'] == "REQNACK":
         logging.debug("Gothere2")
-        logger.debug("Invalid Payment Source - Received REQNACK from get_payment_sources")
+        logger.error("Invalid Payment Source - Received REQNACK from get_payment_sources")
         return None
     else:
         logging.debug("Gothere3")
@@ -433,7 +433,6 @@ async def xferTokens(network, handles, NYMs):
             #exit()
             await validateSourcePaymentAddress(pool_handle, steward_wallet_handle, steward_did,
                                            source_payment_address, DEFAULT_TOKENS_AMOUNT, xfer_fee)
-
             reason = "Source Payment Address contains enough tokens. Transferring is allowed."
             # Log that a check for source payment address on STN is in done.
             logger.debug("Before write Endorser registration log")
@@ -471,7 +470,6 @@ async def xferTokens(network, handles, NYMs):
         statusCode = err.status_code
         reason = str(err)
         logger.error(err)
-
     await writeEndorserRegistrationLog(entry, status, reason, isotimestamp)
 
     # Add status and reason for the status for each DID to the result
@@ -828,18 +826,19 @@ async def handle_nym_req(request):
         if nyms[0]['paymentaddr']:
             logger.debug("Call xferTokens...")
             #TODO need to append to responsebody here rather than overwriting it
-            responseBody_xfer = await xferTokens(poolName, nyms)
+            responseBody_xfer = await xferTokens(poolName, handles, nyms)
             logger.debug("Xfer Tokens is complete...")
         else:
             logging.debug("The payment address was blank, did not try to transfer tokens this time.")
-            #Add appropriate messaging to error handling stuff?  Its okay if this is  blank and all they wanted was nore a nym, so this is not an error 
+            #Add appropriate messaging to error handling stuff?  Its okay if this is blank and all they wanted was nore a nym, so this is not an error 
         if responseBody_nym: 
             responseBody = responseBody_nym
         elif responseBody_xfer:
             responseBody = responseBody_xfer
         logging.debug(responseBody)
         if responseBody_xfer and responseBody_nym:
-            logging.debug("Gothere 11")
+            if responseBody_xfer['statusCode'] > 200:
+                responseBody['statusCode'] = responseBody_xfer['statusCode']
             responseBody[nyms[0]['DID']]['status'] = "DID: " + responseBody_nym[nyms[0]['DID']]['status'] + ", TOKEN: " + responseBody_xfer[nyms[0]['DID']]['status']
             logging.debug(responseBody)
             responseBody[nyms[0]['DID']]['statusCode'] = "DID: " + str(responseBody_nym[nyms[0]['DID']]['statusCode']) + ", TOKEN: " + str(responseBody_xfer[nyms[0]['DID']]['statusCode'])
