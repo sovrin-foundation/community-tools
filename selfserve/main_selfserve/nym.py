@@ -32,7 +32,7 @@ TrainingPaymentAddress="pay:sov:4RqyLsoQokLaYRuqb8YS3z6Rr7ouTy8UBGzB6QzjiYRaiZiK
 PAYMENT_LIBRARY = 'libsovtoken'
 PAYMENT_METHOD = 'sov'
 PAYMENT_PREFIX = 'pay:sov:'
-DEFAULT_TOKENS_AMOUNT=200000000000 #Is this an intentionally large amount??
+DEFAULT_TOKENS_AMOUNT=200000000000
 
 logger = logging.getLogger('selfserv')
 
@@ -778,6 +778,7 @@ def my_handler(event, context):
 
 async def handle_nym_req(request):
     handles = request.app['handles']
+    xfer_lock = request.app['xfer_lock']
     responseCode = 200
     responseBody={}
     responseBody_nym={}
@@ -824,10 +825,10 @@ async def handle_nym_req(request):
             responseBody_nym = await addNYMs(poolName, handles, nyms)
             logger.debug("Adding nym is complete...")
         if nyms[0]['paymentaddr']:
-            logger.debug("Call xferTokens...")
-            #TODO need to append to responsebody here rather than overwriting it
-            responseBody_xfer = await xferTokens(poolName, handles, nyms)
-            logger.debug("Xfer Tokens is complete...")
+            async with xfer_lock:
+                logger.debug("Call xferTokens...")
+                responseBody_xfer = await xferTokens(poolName, handles, nyms)
+                logger.debug("Xfer Tokens is complete...")
         else:
             logging.debug("The payment address was blank, did not try to transfer tokens this time.")
             #Add appropriate messaging to error handling stuff?  Its okay if this is blank and all they wanted was nore a nym, so this is not an error 
