@@ -14,6 +14,7 @@ app['handles'] = {
     },
     'wallet': None
 }
+app['xfer_lock'] = asyncio.Lock()
 WALLET = "stewardauto" #"test"
 WALLETKEY = "stewardauto" #"test"
 LOG_LEVEL = logging.INFO
