@@ -75,7 +75,10 @@ async def main():
         if val == {}:
             print("Unknown Error - None value returned")
             continue;
-        #print (val)
+        if str(json.loads(val)["op"]) in "REQNACK":
+            print("    %s\n" % val)
+            continue;
+        # print (val)
 
         print("    timestamp: %s" % (str(json.loads(val)["result"]["data"]["timestamp"])))
 
