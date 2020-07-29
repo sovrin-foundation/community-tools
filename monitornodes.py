@@ -75,27 +75,30 @@ async def main():
         if val == {}:
             print("Unknown Error - None value returned")
             continue;
-        #print (val)
+        if str(json.loads(val)["op"]) not in "REPLY":
+            print("    %s\n" % val)
+            continue;
+        # print (val)
 
         print("    timestamp: %s" % (str(json.loads(val)["result"]["data"]["timestamp"])))
 
         if str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["0"]["Has_write_consensus"]) in "False":
-            print("   ERROR Config Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["0"]["Has_write_consensus"]))
+            print("    ERROR Config Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["0"]["Has_write_consensus"]))
         if str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["1"]["Has_write_consensus"]) in "False":
-            print("   ERROR Main Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["1"]["Has_write_consensus"]))
+            print("    ERROR Main Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["1"]["Has_write_consensus"]))
         if str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["2"]["Has_write_consensus"]) in "False":
-            print("   ERROR Pool Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["2"]["Has_write_consensus"]))
+            print("    ERROR Pool Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["2"]["Has_write_consensus"]))
         if "1001" in str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]):
             #print("Found Token ledger")
             if str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["1001"]["Has_write_consensus"]) in "False":
-                print("   ERROR Token Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["1001"]["Has_write_consensus"]))
+                print("    ERROR Token Ledger Has_write_consensus: %s" % str(json.loads(val)["result"]["data"]["Node_info"]["Freshness_status"]["1001"]["Has_write_consensus"]))
         if not primary_set:
             primary = str(json.loads(val)["result"]["data"]["Node_info"]["Replicas_status"][key+":0"]["Primary"])
             primary_set=True
         if str(json.loads(val)["result"]["data"]["Node_info"]["Replicas_status"][key+":0"]["Primary"]) != primary:
-            print("  ERROR Primary Mismatch! This Nodes Primary: %s  (Expected: %s)" % (str(json.loads(val)["result"]["data"]["Node_info"]["Replicas_status"][key+":0"]["Primary"]),primary))
+            print("    ERROR Primary Mismatch! This Nodes Primary: %s  (Expected: %s)" % (str(json.loads(val)["result"]["data"]["Node_info"]["Replicas_status"][key+":0"]["Primary"]),primary))
         if val in {"timeout"}:
-            print("   ERROR: No validator info found for Node: "+key)
+            print("    ERROR: No validator info found for Node: "+key)
             errors = errors + " "+ "ERROR: No validator info found for Node: " + key + " "
             continue
         #print("     Unreachable_nodes_count: "+ str(json.loads(val)["result"]["data"]["Pool_info"]["Unreachable_nodes_count"]) + " " + str(json.loads(val)["result"]["data"]["Pool_info"]["Unreachable_nodes"]))
@@ -108,7 +111,8 @@ async def main():
             #print("        %s: %s" % (package, version))
         if json.loads(val)["result"]["data"]["Pool_info"]["Total_nodes_count"] != json.loads(val)["result"]["data"]["Pool_info"]["Reachable_nodes_count"]:
             errors = errors + " "+ key+ " "+ "Unreachable_nodes_count "+ str(json.loads(val)["result"]["data"]["Pool_info"]["Unreachable_nodes_count"])+"\r"
-            print(" Error-Unreachable Nodes: The %s node has Unreachable_nodes_count of %s\n" % (key, str(json.loads(val)["result"]["data"]["Pool_info"]["Unreachable_nodes_count"])))
+            print("    Error-Unreachable Nodes: The %s node has Unreachable_nodes_count of %s; %s\n" % (key, str(json.loads(val)["result"]["data"]["Pool_info"]["Unreachable_nodes_count"]), str(json.loads(val)["result"]["data"]["Pool_info"]["Unreachable_nodes"])))
+
              
     #-----------------------------
 
