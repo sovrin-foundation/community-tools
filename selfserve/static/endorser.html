@@ -1,277 +1,275 @@
 <html>
-<head>
+  <head>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<title>Get a Sovrin Network Endorser!</title>
-<link rel="icon" href="/static/favicon.ico">
-<style>
-div {
-  padding: 5px 5px 5px 5px;
-}
-#div_copy_top {
-  width: 100%;
-}
-#div_container {
-  width: 100%;
-  clear: both;
-  overflow: auto;
-}
-#div_form {
-  width: 250px;
-  float: left;
-}
-#div_results {
-  width: 500px;
-  background-color: black;
-  border-color: grey;
-  color: white;
-  font-family: monospace;
-  font-weight: bold;
-  border-style: solid;
-  float: right;
-}
-#div_copy_bottom {
-  width: 100%;
-}
-#outputWeb {
-  width: 500px;
-  background-color: black;
-  border-color: grey;
-  color: white;
-  font-family: monospace;
-  border-style: solid;
-  float: left;
-}
-#outputListener {
-  width: 500px;
-  background-color: black;
-  border-color: grey;
-  color: white;
-  font-family: monospace;
-  border-style: solid;
-  float: left;
-}
-#copyright {
-  color: #888888;
-  font-style: italic;
-  font-family: sans-serif;
-  width: 100%;
-  clear: both;
-}
-#banner {
-    background-color: rgb(0,27,66);
-    width:100%;
-    min-height:70px;
-}
-#Submit {
-  width: 100px;
-  height: 40px;
-  font-size: 26px;
-  text-align: center;
-  border: 2px solid lightgray;
-  border-radius: 5px;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.moveimage
-{
-    padding: 20px;
-    position: relative;
-}
-.loader {
-    border: 8px solid #f3f3f3; /* Light grey */
-    border-top: 8px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 2s linear infinite;
-}
+    <title>Get a Sovrin Network Endorser!</title>
+    <link rel="icon" href="/static/favicon.ico">
+    <style>
+      body {
+        width: 100%;
+        background-color: #FFFFFF; /* Dark Mode #00070F */
+        color: #000000; /* Dark Mode #F6F6F6 */
+      }
+      main div {
+        padding: 5px 5px 5px 5px;
+      }
+      form label{
+        font-size:x-large;
+      }
+      #div_copy_top {
+        width: 100%;
+        align-content: Left;
+        font-size:x-large;
+      }
+      #div_container {
+        width: 100%;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      #div_results {
+        width: 100%;
+        background-color: black;
+        border-color: grey;
+        border-radius: .3rem;
+        color: white;
+        font-family: monospace;
+        font-weight: bold;
+        border-style: solid;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: none;
+      }
+      #outputWeb {
+        width: 500px;
+        background-color: black;
+        border-color: grey;
+        color: white;
+        font-family: monospace;
+        border-style: solid;
+        float: left;
+      }
+      #outputListener {
+        width: 500px;
+        background-color: black;
+        border-color: grey;
+        color: white;
+        font-family: monospace;
+        border-style: solid;
+        float: left;
+      }
+      #copyright {
+        color: #888888;
+        font-style: italic;
+        font-family: sans-serif;
+        width: 100%;
+        clear: both;
+      }
+      #banner {
+          background-color: rgb(0,27,66);
+          width:100%;
+          min-height:70px;
+          padding: 5px;
+      }
+      .moveimage
+      {
+          padding: 20px;
+          position: relative;
+      }
+      .loader {
+          border: 8px solid #f3f3f3; /* Light grey */
+          border-top: 8px solid #3498db; /* Blue */
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          animation: spin 2s linear infinite;
+      }
+      /* Bootstrap Adjustments */
+      .container-fluid {
+        padding: 0px;
+      }
+      .row {
+        width: 100%;
+      }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script type="text/javascript" src="static/lib/axios/dist/axios.standalone.js"></script>
-<script type="text/javascript" src="static/lib/CryptoJS/rollups/hmac-sha256.js"></script>
-<script type="text/javascript" src="static/lib/CryptoJS/rollups/sha256.js"></script>
-<script type="text/javascript" src="static/lib/CryptoJS/components/hmac.js"></script>
-<script type="text/javascript" src="static/lib/CryptoJS/components/enc-base64.js"></script>
-<script type="text/javascript" src="static/lib/url-template/url-template.js"></script>
-<script type="text/javascript" src="static/lib/apiGatewayCore/sigV4Client.js"></script>
-<script type="text/javascript" src="static/lib/apiGatewayCore/apiGatewayClient.js"></script>
-<script type="text/javascript" src="static/lib/apiGatewayCore/simpleHttpClient.js"></script>
-<script type="text/javascript" src="static/lib/apiGatewayCore/utils.js"></script>
-<script type="text/javascript" src="static/apigClient.js"></script>
-<script>
-//var apigClient = apigClientFactory.newClient({region: 'us-west-2'});
-function addEndorser () {
-  var params = {};
-  var body = {
-    network: document.getElementById('network').value,
-    did: document.getElementById('did').value,
-    verkey: document.getElementById('verkey').value,
-    paymentaddr: document.getElementById('paymentaddr').value
-  };
-  var additionalParams = {};
-  document.getElementById('div_results').innerHTML = "<div class='loader'></div>"
-//  apigClient.nymPost(params, body, additionalParams)
-  $.post("/nym",
-    JSON.stringify(body),
-    function(data, textStatus) {
-          //This is where you would put a success callback
-          console.log(textStatus);
-          console.log(data);
-          data = JSON.parse(data);
-          did=document.getElementById('did').value;
-          console.log("Succeeded adding " + did + " as an Endorser!");
-          if(did in data) {
-              console.log("Found DID " + did + " in data");
-              message = data[did].status + ": " +
-                  data[did].reason;
-              console.log("message="+message);
-          } else {
-              console.log("Did not find DID " + did + " in data");
-              message = JSON.stringify(data)
-          }
-          document.getElementById('div_results').innerHTML = message;
-      }).fail( function(jqXHR, textStatus, error){
-          //This is where you would put an error callback
-          console.log("Failed!");
-          console.log(textStatus);
-          console.log(error);
-          message = "";
-          data = JSON.parse(jqXHR.responseText);
-          switch(jqXHR.statusCode) {
-              case 400:
-                  did=document.getElementById('did').value;
-                  console.log("Validation errors on DID: " + did);
-                  if(did in jqXHR.responseText) {
-                      console.log("Found DID " + did + " in response");
-                      message += "Validation Errors: <ol>";
-                      errors = data[did];
-                      errors.forEach(function (entry) {
-                         message += "<li>" + entry + "</li>";    
-                      });
-                      message += "</ol>";
-                      console.log("message="+message);
-                  } else {
-                      console.log("Did not find DID " + did + " in data");
-                      message = JSON.stringify(data)
-                  }
-                  break;
-              case 409: 
-              case 500:
-                  did=document.getElementById('did').value;
-                  console.log("DID: " + did);
-                  if(did in jqXHR.responseText) {
-                      console.log("Found DID " + did + " in data");
-                      message = data[did].status + ": " +
-                          data[did].reason;
-                      console.log("message="+message);
-                  } else {
-                      console.log("Did not find DID " + did + " in data");
-                      message = JSON.stringify(data)
-                  }
-                  break;
-              case 404: 
-              default:
-                  message = data.message;
-          }
-          document.getElementById('div_results').innerHTML = message;
-      });
-}
-</script>
-</head>
-<body>
-<div id="banner">
-  <a href="https://sovrin.org"><img class="moveimage" src="https://sovrin.org/wp-content/themes/sovrin/assets/images/logo.svg"></a>
-</div>
-<h1 align="center"> Setup a Sovrin Network Transaction Endorser!</h1>
-<hr />
-<div align="right">
-  <a target="_blank" href="https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E" title="Click here for help creating a DID"><img src="/static/blue_question_mark.png" height="43px"/></a>
-</div>
-<div style="font-size:x-large;" id="div_copy_top" align="center" >
-  <p> Select a network, then enter a DID and verkey: </p>
-  &nbsp;
-</div>
-<div id="div_container">
-<div id="div_form">
-<table>
-  <tr>
-    <td valign="top">
-      <form>
-      <table style="font-size:x-large;">
-        <tr>
-          <td style="text-align:right" class = "select">Network:</td>
-          <td>
-            <select style="font-size:large;" name="network" id="network">
-            <option value="buildernet">BuilderNet</option>
-            <option value="stagingnet">StagingNet</option>
-            </select>
-          </td>  
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td style="text-align:right;">DID:</td>
-          <td><input style="font-size:large;" name="did" id="did" type="text" size="30" maxlength="24"/></td>
-        </tr>
-        <tr>
-          <td style="text-align:right;">Verkey:</td>
-          <td><input style="font-size:large;" name="verkey" id="verkey" type="text" size="50" maxlength="44"/></td>
-        </tr>  
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
-        <tr hidden>
-          <td style="text-align:right;">Payment-Address:</td>
-          <td><input style="font-size:large;" name="paymentaddr" id="paymentaddr" type="text" size="50"/></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a>
-            </p>
-          </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td colspan="4">
-           <input id="Submit" type="button" value="Submit" onclick="addEndorser();" />
-          </td>
-        </tr>
-      </table>
-      </form>
-    </td>
-    <td valign="top">
-      <div id="div_results"></div>
-    </td>
-  </tr>
-</table>
-</div>
-</div>
-<div>
-  <a href=https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E target="_blank"> Help me get a DID!</a>
-</div> 
-<div id="copyright">
-<hr />
-&copy; 2019 <a href="https://sovirn.org/" target="_blank">Sovrin
-Foundation</a>. All Rights Reserved.
-</div>
-</body>
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="static/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="static/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="static/lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="static/lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="static/lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="static/lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="static/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="static/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="static/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="static/lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="static/apigClient.js"></script>
+    <script>
+    //var apigClient = apigClientFactory.newClient({region: 'us-west-2'});
+    function addEndorser () {
+      // displays div_results on submit. Display default is none.
+      document.getElementById('div_results').style.display = 'block'
+      
+      var params = {};
+      var body = {
+        network: document.getElementById('network').value,
+        did: document.getElementById('did').value,
+        verkey: document.getElementById('verkey').value,
+        paymentaddr: document.getElementById('paymentaddr').value
+      };
+      var additionalParams = {};
+      document.getElementById('div_results').innerHTML = "<div class='loader'></div>"
+    //  apigClient.nymPost(params, body, additionalParams)
+      $.post("/nym",
+        JSON.stringify(body),
+        function(data, textStatus) {
+              //This is where you would put a success callback
+              console.log(textStatus);
+              console.log(data);
+              data = JSON.parse(data);
+              did=document.getElementById('did').value;
+              console.log("Succeeded adding " + did + " as an Endorser!");
+              if(did in data) {
+                  console.log("Found DID " + did + " in data");
+                  message = data[did].status + ": " +
+                      data[did].reason;
+                  console.log("message="+message);
+              } else {
+                  console.log("Did not find DID " + did + " in data");
+                  message = JSON.stringify(data)
+              }
+              document.getElementById('div_results').innerHTML = message;
+          }).fail( function(jqXHR, textStatus, error){
+              //This is where you would put an error callback
+              console.log("Failed!");
+              console.log(textStatus);
+              console.log(error);
+              message = "";
+              data = JSON.parse(jqXHR.responseText);
+              switch(jqXHR.statusCode) {
+                  case 400:
+                      did=document.getElementById('did').value;
+                      console.log("Validation errors on DID: " + did);
+                      if(did in jqXHR.responseText) {
+                          console.log("Found DID " + did + " in response");
+                          message += "Validation Errors: <ol>";
+                          errors = data[did];
+                          errors.forEach(function (entry) {
+                            message += "<li>" + entry + "</li>";    
+                          });
+                          message += "</ol>";
+                          console.log("message="+message);
+                      } else {
+                          console.log("Did not find DID " + did + " in data");
+                          message = JSON.stringify(data)
+                      }
+                      break;
+                  case 409: 
+                  case 500:
+                      did=document.getElementById('did').value;
+                      console.log("DID: " + did);
+                      if(did in jqXHR.responseText) {
+                          console.log("Found DID " + did + " in data");
+                          message = data[did].status + ": " +
+                              data[did].reason;
+                          console.log("message="+message);
+                      } else {
+                          console.log("Did not find DID " + did + " in data");
+                          message = JSON.stringify(data)
+                      }
+                      break;
+                  case 404: 
+                  default:
+                      message = data.message;
+              }
+              document.getElementById('div_results').innerHTML = message;
+          });
+    }
+    </script>
+  </head>
+
+  <body>
+
+    <header class="site-header">
+      <div class="container-fluid">
+        <div id="banner">
+          <a href="https://sovrin.org"><img class="moveimage" src="https://sovrin.org/wp-content/themes/sovrin/assets/images/logo.svg"></a>
+        </div>
+      </div>
+    </header>
+
+    <main role="main" class="container-fluid">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <h1 align="center"> Setup a Sovrin Network Transaction Endorser!</h1>
+          <hr />
+          
+          <div id="div_copy_top">
+            <p> Select a network, then enter a DID and verkey: </p>
+          </div>
+
+          <div id="div_container">
+            <form>
+
+              <div class="form-group">
+                <label id="Select">Network</label>
+                <select class="form-control" name="network" id="network">
+                  <option value="buildernet">BuilderNet</option>
+                  <option value="stagingnet">StagingNet</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>DID</label>
+                <input class="form-control" name="did" id="did" placeholder="DID" type="text" maxlength="24"/>
+              </div>
+
+              <div class="form-group">
+                <label>Verkey</label>
+                <input class="form-control" name="verkey" id="verkey" placeholder="Verkey" type="text" maxlength="44"/>
+              </div>
+
+              <div style="display: none;" class="form-group">
+                <label>Payment-Address</label>
+                <input class="form-control" name="paymentaddr" id="paymentaddr" placeholder="Payment-Address" type="text" size="50"/>
+              </div>
+
+              <div class="form-group">
+                <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a></p>
+                <!-- This is a message box. It is required for this page to work -->
+                <div id="div_results"></div>
+                <input class="btn btn-warning btn-lg" type="button" value="Submit" onclick="addEndorser();" />
+              </div>
+
+            </form>
+          </div>
+
+          <div>
+            <a href=https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E target="_blank"> Help me get a DID!</a>
+          </div>
+
+          <div id="copyright">
+            <hr />
+            &copy; 2019 <a href="https://sovirn.org/" target="_blank">Sovrin
+            Foundation</a>. All Rights Reserved.
+          </div>
+
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </main>
+  </body>
 </html>
