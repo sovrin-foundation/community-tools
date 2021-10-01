@@ -44,6 +44,12 @@ logger = logging.getLogger('selfserv')
 #stdoutHandler.setFormatter(formatter)
 #logger.addHandler(stdoutHandler)
 
+def const_compare(string1, string2):
+    """Compare two strings in constant time."""
+    if string1 is None or string2 is None:
+        return False
+    return string1 == string2
+
 async def writeEndorserRegistrationLog(entry, status, reason, isotimestamp):
     if AWS_ENV:
            # Write an item to the trust_anchor_registration table in DynamoDB
@@ -216,7 +222,7 @@ async def addNYMs(network, handles, NYMs):
             logger.debug("Status code >%d< is greater than result.statusCode >%d<", statusCode, result['statusCode'])
             result['statusCode'] = statusCode
 
-    return result 
+    return result
 #    logger.debug("Before set future result")
 #    future.set_result(result)
 #    logger.debug("After set future result")
@@ -400,11 +406,11 @@ async def xferTokens(network, handles, NYMs):
 
             # Verify source Payment Address contains enough tokens
             if pool_name == "buildernet":
-                source_payment_address=BuilderPaymentAddress 
+                source_payment_address=BuilderPaymentAddress
             elif pool_name == "stagingnet":
                 source_payment_address=StagingPaymentAddress
             else:   # Testing
-                source_payment_address=TrainingPaymentAddress 
+                source_payment_address=TrainingPaymentAddress
 
             # First find out the xfer fee...
             xfer_fee = 0
@@ -803,7 +809,7 @@ async def handle_nym_req(request):
     errors = {}
     logger.debug("Processing single (non-batch) request...")
     if (msgbody['did'] == "") and (msgbody['verkey'] == "") and (msgbody['paymentaddr'] == ""):
-        return web.Response(body=json.dumps(response))   
+        return web.Response(body=json.dumps(response))
     if msgbody['did'] or msgbody['verkey']:
         did = msgbody['did']
         tmp_errors = validateNym(msgbody)
@@ -812,13 +818,25 @@ async def handle_nym_req(request):
     else:
         errors = addErrors(did, errors, tmp_errors)
 
+    poolName = msgbody['network']
+
+    if poolName == 'stagingnet':
+        logger.info(f'Nym bound for {poolName}. Attempting to authenticate request ...')
+        API_KEY = os.environ.get('API_KEY')
+        header_admin_api_key = request.headers.get("x-api-key")
+        if not const_compare(header_admin_api_key, API_KEY):
+            logger.error("Authentication failed.")
+            errors[did] = "Not Authenticated."
+        else:
+            logger.info('Request Authenticated.')
+    else:
+        logger.info(f'Nym bound for {poolName}. No authentication required ...')
+
     # Check if errors is an empty dict
     if bool(errors) == False:
         #logging.debug("Got here 1\n")
         logger.debug("No errors found in request...")
         # Get the steward seed and pool genesis file
-
-        poolName = msgbody['network'] 
 
         if nyms[0]['DID'] and nyms[0]['verkey']:
             logger.debug("Call addNYMs...")
@@ -831,8 +849,8 @@ async def handle_nym_req(request):
                 logger.debug("Xfer Tokens is complete...")
         else:
             logging.debug("The payment address was blank, did not try to transfer tokens this time.")
-            #Add appropriate messaging to error handling stuff?  Its okay if this is blank and all they wanted was nore a nym, so this is not an error 
-        if responseBody_nym: 
+            #Add appropriate messaging to error handling stuff?  Its okay if this is blank and all they wanted was nore a nym, so this is not an error
+        if responseBody_nym:
             responseBody = responseBody_nym
         elif responseBody_xfer:
             responseBody = responseBody_xfer
