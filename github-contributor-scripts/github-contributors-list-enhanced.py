@@ -12,7 +12,7 @@ total_contributions = 0
 weekly_contributions = dict()
 
 if len(sys.argv) < 2:
-   token=raw_input("GitHub Authentication Token: ")
+   token=input("GitHub Authentication Token: ")
 else:
    token=sys.argv[1]
    
