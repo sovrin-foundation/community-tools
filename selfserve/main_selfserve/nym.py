@@ -12,6 +12,7 @@ import re
 from aiohttp import web
 import platform
 from ctypes import cdll
+from dotenv import load_dotenv
 
 # Set this flag to true if running this script in an AWS VM or a lambda. False if in a Virtualbox VM.
 AWS_ENV=False
@@ -822,6 +823,7 @@ async def handle_nym_req(request):
 
     if poolName == 'stagingnet':
         logger.info(f'Nym bound for {poolName}. Attempting to authenticate request ...')
+        load_dotenv()
         API_KEY = os.environ.get('API_KEY')
         header_admin_api_key = request.headers.get("x-api-key")
         if not const_compare(header_admin_api_key, API_KEY):
