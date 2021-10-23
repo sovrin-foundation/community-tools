@@ -17,20 +17,13 @@
         color: #000000; /* Dark Mode #F6F6F6 */
       }
       hr {
-        margin: 15px;
+        margin: 14px;
       }
-      a:link {
+      a:link, a:visited {
         color: #f8a31a;
       }
-      a:visited {
-        color: #f8a31a;
-      }
-      a:active {
+      a:active, a:hover {
         color: #0f6ecd;
-      } 
-      a:hover {
-        color: #0f6ecd;
-        text-decoration: none;
       }
       a:link, a:visited, a:active, a:hover {
         text-decoration: none;
@@ -44,12 +37,24 @@
       }
       form {
         padding: 10px;
-        margin-top: 15px !important;
+        margin-top: 14px !important;
         border-radius: 0px;
         background-color: #f7f7f7;
       }
       form label{
         font-size:x-large;
+      }
+      footer {
+        background-color: #001b42;
+        width: 100%;
+        min-height: 70px;
+      }
+      footer p{
+        color: #ffffff;
+        font-size: 15px;
+        margin-left: 20px;
+        padding-top: 25px;
+        margin-bottom: 0px;
       }
       #div_copy_top {
         width: 100%;
@@ -87,31 +92,23 @@
         border-style: solid;
         float: left;
       }
-      #copyright {
-        color: #888888;
-        font-style: italic;
-        font-family: sans-serif;
-        width: 100%;
-        clear: both;
-      }
       #banner {
-          background-color: rgb(0,27,66);
-          width:100%;
-          min-height:70px;
-          padding: 5px;
+        background-color: #001b42;
+        width:100%;
+        min-height:70px;
+        padding: 5px;
       }
-      .moveimage
-      {
-          padding: 20px;
-          position: relative;
+      .moveimage {
+        padding: 20px;
+        position: relative;
       }
       .loader {
-          border: 8px solid #f3f3f3; /* Light grey */
-          border-top: 8px solid #3498db; /* Blue */
-          border-radius: 50%;
-          width: 20px;
-          height: 20px;
-          animation: spin 2s linear infinite;
+        border: 8px solid #f3f3f3; /* Light grey */
+        border-top: 8px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 2s linear infinite;
       }
 
       /* Bootstrap Adjustments */
@@ -154,6 +151,10 @@
       }
       #mainnet-card {
         background-color: #f8a31b;
+      }
+      .btn-warning, .btn-warning:link, .btn-warning:visited, .btn-warning:active, .btn-warning:hover {
+        background-color: #f8a31b !important;
+        border-color: #f8a31b !important;
       }
 
       @keyframes spin {
@@ -317,7 +318,7 @@
 
           <form class="row align-items-center">
             <div id="div_copy_top">
-              <p>Enter a DID and verkey for your BuilderNet Endorser DID:</p>
+              <p style="margin-bottom: 0px;">Enter a DID and verkey for your BuilderNet Endorser DID:</p>
             </div>
             <div class="col-sm-4">
               <label id="Select">Network</label>
@@ -361,15 +362,14 @@
             <a href=https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E target="_blank"> Help me get a DID!</a>
           </div>
 
-          <div id="copyright">
-            <hr />
-            &copy; <script>document.write(new Date().getFullYear());</script> <a href="https://sovrin.org/" target="_blank">Sovrin Foundation</a>. All Rights Reserved.
-          </div>
-
         </div>
         <div class="col-md-2"></div>
       </div>
     </main>
+
+    <footer class="footer mt-auto">
+        <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> <a href="https://sovrin.org/" target="_blank">Sovrin Foundation</a>. All Rights Reserved.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
