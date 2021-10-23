@@ -16,8 +16,37 @@
         background-color: #FFFFFF; /* Dark Mode #00070F */
         color: #000000; /* Dark Mode #F6F6F6 */
       }
+      hr {
+        margin: 15px;
+      }
+      a:link {
+        color: #f8a31a;
+      }
+      a:visited {
+        color: #f8a31a;
+      }
+      a:active {
+        color: #0f6ecd;
+      } 
+      a:hover {
+        color: #0f6ecd;
+        text-decoration: none;
+      }
+      a:link, a:visited, a:active, a:hover {
+        text-decoration: none;
+      }
+      p {
+        margin: 0px;
+        margin-bottom: 5px;
+      }
       main div {
         padding: 3px 3px 3px 3px;
+      }
+      form {
+        padding: 10px;
+        margin-top: 15px !important;
+        border-radius: 0px;
+        background-color: #f7f7f7;
       }
       form label{
         font-size:x-large;
@@ -26,13 +55,6 @@
         width: 100%;
         align-content: Left;
         font-size:x-large;
-      }
-      #div_container {
-        width: 100%;
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding-left: 20px;
-        padding-right: 20px;
       }
       #div_results {
         width: 100%;
@@ -91,6 +113,7 @@
           height: 20px;
           animation: spin 2s linear infinite;
       }
+
       /* Bootstrap Adjustments */
       .container-fluid {
         padding: 0px;
@@ -98,14 +121,39 @@
       .row {
         margin: auto;
       }
-      .form-group {
-        margin-bottom: 0px;
-      }
       .text-muted {
         color: #3F4549;
       }
+      .card {
+        border: none;
+        border-radius: 0px;
+        background-color: #f7f7f7;
+        padding: 0px; 
+        color: #555555;
+      }
+      .card-header {
+        border: none;
+        border-radius: 0px !important;
+        padding: 20px 0;
+      }
       .card-title {
         font-size: 1.5rem;
+        font-weight: bold;
+      }
+      #buildernet-card {
+        background-color: #7a7a7a;
+      }
+      #buildernet-card h6{
+        color: #c6c6c6 !important; 
+      }
+      #stagingnet-card {
+        background-color: #54595f;
+      }
+      #stagingnet-card h6{
+        color: #aaaaaa !important;
+      }
+      #mainnet-card {
+        background-color: #f8a31b;
       }
 
       @keyframes spin {
@@ -224,74 +272,90 @@
 
     <main role="main" class="container-fluid">
       <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
           <h1 align="center"> Setup a Sovrin Network Transaction Endorser!</h1>
           <hr />
 
-          <div class="card-group" style="padding: 0px; margin-bottom: 16px;">
-            <div class="card text-dark bg-light">
-              <div class="card-body">
-                <h5 class="card-title">BuilderNet</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Development</h6>
-                <p class="card-text">Developers can get a Transaction Endorser DID on the Sovrin BuilderNet by submitting the form below. BuilderNet Endorser DIDs are free for development use and retain their “Endorser” privileges for 6 months. Transactions on BuilderNet are also free.</p>
-              </div>
-            </div>
-            <div class="card text-dark" style="background-color: #f8a31a;">
-              <div class="card-body">
-                <h5 class="card-title">StagingNet</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Staging</h6>
-                <p class="card-text">Looking to go beyond development? The Sovrin StagingNet is for prototyping and demonstrating pre-production SSI applications & services. To learn more and to get a Sovrin StagingNet Endorser DID, click <a href="https://sovrin.org/stagingnet-endorser-did-order-form/" target="_blank">here</a>.</p>
-              </div>
-            </div>
-            <div class="card text-white" style="background-color: #001b42;">
-              <div class="card-body">
-                <h5 class="card-title">MainNet</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Production</h6>
-                <p class="card-text">Ready for production? Sovrin MainNet is for scaling live SSI applications & services. To learn more and to apply for a Sovrin MainNet Endorser DID, click <a href="https://sovrin.org/mainnet-endorser-did-application-form/" target="_blank">here</a>.</p>
-              </div>
-            </div>
-          </div>
-
-          <div id="div_copy_top">
-            <p>Enter a DID and verkey for your BuilderNet Endorser DID:</p>
-          </div>
-
-          <div id="div_container">
-            <form>
-              <div class="form-group"> 
-                <div>
-                  <label id="Select">Network</label>
-                  <select class="form-control" name="network" id="network" disabled readonly>
-                    <option value="buildernet" selected>BuilderNet - Development</option>
-                  </select>
+          <div class="row row-cols-1 row-cols-md-3">
+            <div class="col">
+              <div class="card h-100 text-center">
+                <div class="card-header text-light" id="buildernet-card">
+                  <h5 class="card-title">BuilderNet</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Development</h6>
                 </div>
-                  
-                  <div>
-                    <label>DID</label>
-                    <input class="form-control" name="did" id="did" placeholder="DID" type="text" maxlength="24"/>
-                  </div>
-
-                  <div>
-                    <label>Verkey</label>
-                    <input class="form-control" name="verkey" id="verkey" placeholder="Verkey" type="text" maxlength="44"/>
-                  </div>
-
-                  <div style="display: none;">
-                    <label>Payment-Address</label>
-                    <input class="form-control" name="paymentaddr" id="paymentaddr" placeholder="Payment-Address" type="text" size="50"/>
-                  </div>
-
-                  <div>
-                    <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a></p>
-                    <!-- This is a message box. It is required for this page to work. -->
-                    <div id="div_results"></div>
-                    <input class="btn btn-warning btn-lg" type="button" value="Submit" onclick="addEndorser();" />
-                  </div>
-
+                <div class="card-body">
+                  <p class="card-text">Developers can get a Transaction Endorser DID on the Sovrin BuilderNet by submitting the form below. BuilderNet Endorser DIDs are free for development use and retain their “Endorser” privileges for 6 months. Transactions on BuilderNet are also free.</p>
+                </div>
               </div>
-            </form>
+            </div>
+
+            <div class="col">
+              <div class="card h-100 text-center">
+                <div class="card-header text-light" id="stagingnet-card">
+                  <h5 class="card-title">StagingNet</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Staging</h6>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">Looking to go beyond development? The Sovrin StagingNet is for prototyping and demonstrating pre-production SSI applications & services. To learn more and to get a Sovrin StagingNet Endorser DID, click <a href="https://sovrin.org/stagingnet-endorser-did-order-form/" target="_blank">here</a>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="card h-100 text-center">
+                <div class="card-header text-light" id="mainnet-card">
+                  <h5 class="card-title">MainNet</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Production</h6>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">Ready for production? Sovrin MainNet is for scaling live SSI applications & services. To learn more and to apply for a Sovrin MainNet Endorser DID, click <a href="https://sovrin.org/mainnet-endorser-did-application-form/" target="_blank">here</a>.</p>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <form class="row align-items-center">
+            <div id="div_copy_top">
+              <p>Enter a DID and verkey for your BuilderNet Endorser DID:</p>
+            </div>
+            <div class="col-sm-4">
+              <label id="Select">Network</label>
+              <div class="col-sm-10">
+                <select class="form-control" name="network" id="network" disabled readonly>
+                  <option value="buildernet" selected>BuilderNet - Development</option>
+                </select>
+              </div>
+            </div>
+              
+              <div class="col-sm-4">
+                <label>DID</label>
+                <div class="col-sm-10">
+                  <input class="form-control" name="did" id="did" placeholder="DID" type="text" maxlength="24"/>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <label>Verkey</label>
+                <div class="col-sm-10">
+                  <input class="form-control" name="verkey" id="verkey" placeholder="Verkey" type="text" maxlength="44"/>
+                </div>
+              </div>
+
+              <div class="col-sm-3" style="display: none;">
+                <label>Payment-Address</label>
+                <div class="col-sm-10">
+                  <input class="form-control" name="paymentaddr" id="paymentaddr" placeholder="Payment-Address" type="text" size="50"/>
+                </div>
+              </div>
+
+              <div>
+                <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a></p>
+                <!-- This is a message box. It is required for this page to work. -->
+                <div id="div_results"></div>
+                <input class="btn btn-warning btn-lg text-light" style="margin-bottom: 10px;" type="button" value="Submit" onclick="addEndorser();" />
+              </div>
+          </form>
 
           <div>
             <a href=https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E target="_blank"> Help me get a DID!</a>
@@ -303,7 +367,7 @@
           </div>
 
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-2"></div>
       </div>
     </main>
 
