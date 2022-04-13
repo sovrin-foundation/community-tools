@@ -177,6 +177,15 @@
     <script type="text/javascript" src="static/apigClient.js"></script>
 
     <script>
+    var captcha_response;
+
+    function verifyCaptcha(token) {
+      var submit_button = document.getElementById("submit_button");
+      captcha_response = token;
+      document.getElementById('g-recaptcha-error').innerHTML = '';
+      submit_button.classList.remove("disabled");
+    }
+
     //var apigClient = apigClientFactory.newClient({region: 'us-west-2'});
     function addEndorser () {
       // displays div_results on submit. Display default is none.
@@ -187,7 +196,8 @@
         network: document.getElementById('network').value,
         did: document.getElementById('did').value,
         verkey: document.getElementById('verkey').value,
-        paymentaddr: document.getElementById('paymentaddr').value
+        paymentaddr: document.getElementById('paymentaddr').value,
+        captcha_response: captcha_response
       };
       var additionalParams = {};
       document.getElementById('div_results').innerHTML = "<div class='loader'></div>"
@@ -354,9 +364,16 @@
                 <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a></p>
                 <!-- This is a message box. It is required for this page to work. -->
                 <div id="div_results"></div>
-                <input class="btn btn-warning btn-lg text-light" style="margin-bottom: 10px;" type="button" value="Submit" onclick="addEndorser();" />
+
+                <div style="display: flex;align-items: center; margin-bottom: 10px;">
+                  <input class="btn btn-warning btn-lg text-light disabled" id="submit_button" type="button" value="Submit" onclick="addEndorser();" />
+                  <div class="g-recaptcha" data-sitekey="6LdD03AfAAAAAO4KiIt1oz1l8gQaG8-aRd1g8It0" data-callback="verifyCaptcha"></div>
+                  <div id="g-recaptcha-error"></div>
+                </div>
               </div>
           </form>
+
+          <script src='https://www.google.com/recaptcha/api.js'></script>
 
           <div>
             <a href=https://docs.google.com/document/d/1sXZoN18lpFoAF075QoptofwDV_1otUylPGFKRQnA56E target="_blank"> Help me get a DID!</a>
