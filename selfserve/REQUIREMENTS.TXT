@@ -4,3 +4,4 @@ aioboto3
 indy
 Python3-indy
 python-dotenv
+requests

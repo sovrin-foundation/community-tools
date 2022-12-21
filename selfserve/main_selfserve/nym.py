@@ -8,6 +8,7 @@ import tempfile
 import argparse
 import datetime
 import base58
+import requests
 import re
 from aiohttp import web
 import platform
@@ -783,6 +784,30 @@ def my_handler(event, context):
     logging.debug("response: %s" % json.dumps(response))
     return response
 
+async def verify_captcha(request) -> dict:
+    secret_key = os.environ.get('RECAPTCHA_SECRET_KEY')
+    captcha_rs = None
+    if not secret_key:
+        return {"status": False, "message": "Secret key not found"}
+    msgbody = await request.json()
+    if 'captcha_response' in msgbody:
+        captcha_rs = msgbody['captcha_response']
+    if not captcha_rs:
+        return {"status": False, "message": "Captcha response not provided"}
+
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    params = {
+        "secret": secret_key,
+        "response": captcha_rs,
+        "remoteip": request.host,
+    }
+    verify_rs = requests.get(url, params=params, verify=True)
+    verify_rs = verify_rs.json()
+    return {
+        "status": verify_rs.get("success", False),
+        "message": verify_rs.get("error-codes", None) or "Unspecified error.",
+    }
+
 async def handle_nym_req(request):
     handles = request.app['handles']
     xfer_lock = request.app['xfer_lock']
@@ -793,8 +818,14 @@ async def handle_nym_req(request):
     tmp_errors=[]
 
     nyms = []
+    errors = {}
+    load_dotenv()
     #logging.debug("Event body >%s<" % event['body'])
     msgbody = await request.json() #written by dbluhm (not copied)
+
+    verified_captcha = await verify_captcha(request)
+    if not verified_captcha["status"]:
+        return web.HTTPUnauthorized()
 
     # Validate and build nyms from request body; setting name and sourceIP for
     # each nym.
@@ -807,7 +838,6 @@ async def handle_nym_req(request):
         'body': json.dumps(responseBody)
     }
 
-    errors = {}
     logger.debug("Processing single (non-batch) request...")
     if (msgbody['did'] == "") and (msgbody['verkey'] == "") and (msgbody['paymentaddr'] == ""):
         return web.Response(body=json.dumps(response))
@@ -823,7 +853,6 @@ async def handle_nym_req(request):
 
     if poolName == 'stagingnet':
         logger.info(f'Nym bound for {poolName}. Attempting to authenticate request ...')
-        load_dotenv()
         API_KEY = os.environ.get('API_KEY')
         header_admin_api_key = request.headers.get("x-api-key")
         if not const_compare(header_admin_api_key, API_KEY):
