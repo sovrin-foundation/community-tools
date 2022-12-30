@@ -821,7 +821,7 @@ async def handle_nym_req(request):
 
     poolName = msgbody['network']
 
-    if poolName == 'stagingnet':
+    if poolName == 'stagingnet' or poolName == 'buildernet':
         logger.info(f'Nym bound for {poolName}. Attempting to authenticate request ...')
         load_dotenv()
         API_KEY = os.environ.get('API_KEY')

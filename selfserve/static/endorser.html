@@ -61,6 +61,18 @@
         align-content: Left;
         font-size:x-large;
       }
+      #div_maintenance {
+        width: 100%;
+        font-size:x-large;
+
+        text-align: center;
+        /* font-size: 1.5rem;
+        line-height: 1.2;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 2px solid #6c757d;
+        background-color: #f7f7f7; */
+      }
       #div_results {
         width: 100%;
         background-color: black;
@@ -304,7 +316,7 @@
                   <h6 class="card-subtitle mb-2 text-muted">Development</h6>
                 </div>
                 <div class="card-body">
-                  <p class="card-text">Developers can get a Transaction Endorser DID on the Sovrin BuilderNet by submitting the form below. BuilderNet Endorser DIDs are free for development use and retain their “Endorser” privileges for 6 months. Transactions on BuilderNet are also free.</p>
+                  <p class="card-text">Developers can get a Transaction Endorser DID on the Sovrin BuilderNet by submitting the form below. BuilderNet Endorser DIDs are free for development use and retain their “Endorser” privileges until 1 February 2023. Transactions on BuilderNet are also free.</p>
                 </div>
               </div>
             </div>
@@ -335,7 +347,10 @@
           </div>
 
           <form class="row align-items-center">
-            <div id="div_copy_top">
+            <div id="div_maintenance">
+              <p style="margin-bottom: 0px;">BuilderNet self serve - Undergoing maintenance.</p>
+            </div>
+            <!-- <div id="div_copy_top">
               <p style="margin-bottom: 0px;">Enter a DID and verkey for your BuilderNet Endorser DID:</p>
             </div>
             <div class="col-sm-4">
@@ -371,9 +386,9 @@
               <div>
                 <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a></p>
                 <!-- This is a message box. It is required for this page to work. -->
-                <div id="div_results"></div>
+                <!-- <div id="div_results"></div>
                 <input class="btn btn-warning btn-lg text-light" style="margin-bottom: 10px;" type="button" value="Submit" onclick="addEndorser();" />
-              </div>
+              </div> -->
           </form>
 
           <div>
