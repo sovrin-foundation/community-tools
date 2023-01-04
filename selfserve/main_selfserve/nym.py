@@ -793,6 +793,8 @@ async def handle_nym_req(request):
     tmp_errors=[]
 
     nyms = []
+    errors = {}
+    load_dotenv()
     #logging.debug("Event body >%s<" % event['body'])
     msgbody = await request.json() #written by dbluhm (not copied)
 
@@ -807,7 +809,6 @@ async def handle_nym_req(request):
         'body': json.dumps(responseBody)
     }
 
-    errors = {}
     logger.debug("Processing single (non-batch) request...")
     if (msgbody['did'] == "") and (msgbody['verkey'] == "") and (msgbody['paymentaddr'] == ""):
         return web.Response(body=json.dumps(response))
@@ -823,7 +824,6 @@ async def handle_nym_req(request):
 
     if poolName == 'stagingnet' or poolName == 'buildernet':
         logger.info(f'Nym bound for {poolName}. Attempting to authenticate request ...')
-        load_dotenv()
         API_KEY = os.environ.get('API_KEY')
         header_admin_api_key = request.headers.get("x-api-key")
         if not const_compare(header_admin_api_key, API_KEY):
