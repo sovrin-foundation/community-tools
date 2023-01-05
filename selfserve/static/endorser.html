@@ -57,21 +57,12 @@
         margin-bottom: 0px;
       }
       #div_copy_top {
-        width: 100%;
-        align-content: Left;
         font-size:x-large;
       }
       #div_maintenance {
         width: 100%;
         font-size:x-large;
-
         text-align: center;
-        /* font-size: 1.5rem;
-        line-height: 1.2;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        border: 2px solid #6c757d;
-        background-color: #f7f7f7; */
       }
       #div_results {
         width: 100%;
@@ -219,6 +210,13 @@
       var additionalParams = {};
       document.getElementById('div_results').innerHTML = "<div class='loader'></div>"
     //  apigClient.nymPost(params, body, additionalParams)
+
+      $.ajaxSetup({
+        headers: {
+            'x-api-key': document.getElementById('api_key').value
+          }
+      });
+
       $.post("/nym",
         JSON.stringify(body),
         function(data, textStatus) {
@@ -346,49 +344,57 @@
             </div>
           </div>
 
-          <form class="row align-items-center">
-            <div id="div_maintenance">
+          <form class="align-items-center">
+            <!-- <div id="div_maintenance">
               <p style="margin-bottom: 0px;">BuilderNet self serve - Undergoing maintenance.</p>
+            </div> -->
+            <div class="row" id="div_copy_top">
+              <p>Enter a DID and verkey for your BuilderNet Endorser DID:</p>
             </div>
-            <!-- <div id="div_copy_top">
-              <p style="margin-bottom: 0px;">Enter a DID and verkey for your BuilderNet Endorser DID:</p>
-            </div>
-            <div class="col-sm-4">
-              <label id="Select">Network</label>
-              <div class="col-sm-10">
+
+            <div class="row">
+              <div class="col-sm">
+                <label id="Select">Network</label>
                 <select class="form-control" name="network" id="network" disabled readonly>
                   <option value="buildernet" selected>BuilderNet - Development</option>
                 </select>
               </div>
-            </div>
-              
-              <div class="col-sm-4">
+                
+              <div class="col-sm">
                 <label>DID</label>
-                <div class="col-sm-10">
-                  <input class="form-control" name="did" id="did" placeholder="DID" type="text" maxlength="24"/>
-                </div>
+                <input class="form-control" name="did" id="did" placeholder="DID" type="text" maxlength="24"/>
               </div>
 
-              <div class="col-sm-4">
+              <div class="col-sm">
                 <label>Verkey</label>
-                <div class="col-sm-10">
-                  <input class="form-control" name="verkey" id="verkey" placeholder="Verkey" type="text" maxlength="44"/>
-                </div>
+                <input class="form-control" name="verkey" id="verkey" placeholder="Verkey" type="text" maxlength="44"/>
               </div>
 
-              <div class="col-sm-3" style="display: none;">
+              <div class="col-sm" style="display: none;">
                 <label>Payment-Address</label>
-                <div class="col-sm-10">
-                  <input class="form-control" name="paymentaddr" id="paymentaddr" placeholder="Payment-Address" type="text" size="50"/>
-                </div>
+                <input class="form-control" name="paymentaddr" id="paymentaddr" placeholder="Payment-Address" type="text" size="50"/>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-sm">
+                <label>API Key</label>
+                <input class="form-control" name="api_key" id="api_key" placeholder="API Key" type="text" maxlength="32"/>
+              </div>
+
+              <div class="col-sm">
+              </div>
+
+              <div class="col-sm">
               </div>
 
               <div>
                 <p>By clicking "Submit" you signify agreement to the Sovrin <a href="https://github.com/sovrin-foundation/sovrin/blob/master/TAA/TAA.md" target="_blank">Transaction Author Agreement</a></p>
                 <!-- This is a message box. It is required for this page to work. -->
-                <!-- <div id="div_results"></div>
+                <div id="div_results"></div>
                 <input class="btn btn-warning btn-lg text-light" style="margin-bottom: 10px;" type="button" value="Submit" onclick="addEndorser();" />
-              </div> -->
+              </div>
+            </div>
           </form>
 
           <div>
